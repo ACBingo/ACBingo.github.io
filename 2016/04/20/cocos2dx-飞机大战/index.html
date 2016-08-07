@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Bingo" />
+
+
+
+<meta name="description" content="之前用cocos引擎做的一个小游戏，面试官想要看一下。。。记不起之前有没有挂在博客上。。面试结束后快马加鞭跑回来一看果然没有。。现在赶紧加上
+面试中提问的我一个题我走后才想到可能是红黑树…5555555555555，感觉答的好差劲啊，要挂了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cocos2dx-飞机大战">
+<meta property="og:url" content="http://blog.acbingo.cn/2016/04/20/cocos2dx-飞机大战/index.html">
+<meta property="og:site_name" content="Bingo's Blog">
+<meta property="og:description" content="之前用cocos引擎做的一个小游戏，面试官想要看一下。。。记不起之前有没有挂在博客上。。面试结束后快马加鞭跑回来一看果然没有。。现在赶紧加上
+面试中提问的我一个题我走后才想到可能是红黑树…5555555555555，感觉答的好差劲啊，要挂了">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/005BpcqWgw1f334abk04cj30dy0kwjsc.jpg">
+<meta property="og:updated_time" content="2016-05-01T09:16:41.845Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cocos2dx-飞机大战">
+<meta name="twitter:description" content="之前用cocos引擎做的一个小游戏，面试官想要看一下。。。记不起之前有没有挂在博客上。。面试结束后快马加鞭跑回来一看果然没有。。现在赶紧加上
+面试中提问的我一个题我走后才想到可能是红黑树…5555555555555，感觉答的好差劲啊，要挂了">
+<meta name="twitter:image" content="http://ww3.sinaimg.cn/large/005BpcqWgw1f334abk04cj30dy0kwjsc.jpg">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Bingo&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>cocos2dx-飞机大战 | Bingo&#39;s Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Bingo</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">Here&#39;s My Second Brains</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:123@123.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Array/">Array</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hash-Table/">Hash Table</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LeetCode/">LeetCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linked-List/">Linked List</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/">Math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/">STL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anroid/">anroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/books/">books</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c#</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocos/">cocos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocos2dx/">cocos2dx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/const/">const</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coursera/">coursera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hash/">hash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hdu/">hdu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/offer/">offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/other/">other</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/poj/">poj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string/">string</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/uva/">uva</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二分/">二分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二叉树/">二叉树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/位运算/">位运算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其它/">其它</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分治/">分治</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态规划/">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单调队列/">单调队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/回溯/">回溯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串/">字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/指针/">指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/枚举/">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树/">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/红黑树/">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线段树/">线段树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/继承/">继承</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译原理/">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚函数/">虚函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆序对/">逆序对</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/递归/">递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/链表/">链表</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于前端</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Bingo</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Bingo</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Here&#39;s My Second Brains</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:123@123.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-cocos2dx-飞机大战" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/04/20/cocos2dx-飞机大战/" class="article-date">
+      <time datetime="2016-04-20T05:38:34.000Z" itemprop="datePublished">2016-04-20</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      cocos2dx-飞机大战
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cocos/">cocos</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>之前用cocos引擎做的一个小游戏，面试官想要看一下。。。记不起之前有没有挂在博客上。。<br>面试结束后快马加鞭跑回来一看果然没有。。现在赶紧加上</p>
+<p>面试中提问的我一个题我走后才想到可能是红黑树…<br>5555555555555，感觉答的好差劲啊，要挂了</p>
+<a id="more"></a>
+<h2 id="游戏运行界面"><a href="#游戏运行界面" class="headerlink" title="游戏运行界面"></a>游戏运行界面</h2><p>//Todo<br>只找到之前的代码和之前的交的报告。。。没有游戏截图，由于换过系统了，所以待会配置好环境跑起来代码再来改一下博客T T</p>
+<p>//14：12<br>万万没想到，cocos配置方式改了啊= =,官方不支持用vs开发了？？。。。而且，宾馆这网速。。ndk晚上前下载完看样子不太可能了T T</p>
+<p>//16:46<br>。。之前的工程文件现在不兼容了。。怎么都打不开。。重新配一个发现好多api都更新了，代码需要改很多，算了，回学校再弄吧，实在受不了这网速。。午饭还没吃找同学吃饭去。。</p>
+<h2 id="面试"><a href="#面试" class="headerlink" title="面试"></a>面试</h2><p>第一次参加面试，就能走到三面，感觉挺幸运了。。。<br>可是。。。我最最想去的腾讯啊…好不容易离这么近啊。。哎，都是泪<br>晚上的阿里和明天的百度的笔试不想做了，今天暑假接着留校学习吧，需要自己学习的东西还有很多。。。明天回去接着做软件杯。。</p>
+<h2 id="我实现的游戏内容主要有以下几个特点："><a href="#我实现的游戏内容主要有以下几个特点：" class="headerlink" title="我实现的游戏内容主要有以下几个特点："></a>我实现的游戏内容主要有以下几个特点：</h2><ol>
+<li>支持鼠标以及键盘两种操作方式。</li>
+<li>一共有5张关卡。每张关卡有不同的游戏内容。随着关卡的提示，游戏难度相应提高，敌人的子弹伤害，生命值，移动速度也会提高。</li>
+<li>战机有4种战斗形态。升级方式通过获得游戏中的掉落道具所得。</li>
+<li>敌机一共有15种。第一关会随机出现3种敌人，第二关会出现6种，以此类推，每升一关会多出3种敌人。</li>
+<li>每一关最后会出现BOSS敌机，有独特的攻击方式以及丰厚的血量。</li>
+<li>战机的导弹有5种形态。每种形态有不同的视觉效果以及攻击能力。导弹升级通过获得游戏中的掉落道具所得。</li>
+<li>核弹系统。使用后清除全屏的敌机（Boss则会掉一定血量）。游戏开始会自带三发核弹。核弹可以通过游戏中吃取掉落道具所得。</li>
+<li>血量系统。屏幕下方有飞机的血量显示。随着飞机的升级总血量值也会得到提升。同时可以通过吃取游戏中的掉落道具获得血量。</li>
+<li>敌机的运动规律不是单调的。会随机的做平滑的曲线运动。每一种敌机的运动范围与运动速度也不相同。</li>
+<li>6种掉落道具。击杀敌机后有一定概率出现。</li>
+</ol>
+<h2 id="值得一提的技术"><a href="#值得一提的技术" class="headerlink" title="值得一提的技术"></a>值得一提的技术</h2><p>这里简述几点值得一提的技术以及知识点。</p>
+<ol>
+<li>敌机运动轨迹产生技术。<br>为了使敌机的运动轨迹能做出来无规律的曲线运动，同时使得运动曲线平滑不突兀。我编写了随机贝塞尔曲线生成器。给出敌机的出现位置以及消失位置，以及随机出两个制约点，即可得到一条符合要求的贝塞尔曲线，使得敌机沿着该曲线运动。</li>
+<li>图层技术。<br>引入了图片处理软件常用的图层概念。方便进行碰撞检测<br>背景图位于图层0。战绩敌机子弹掉落的道具等位于图层1.云彩位于图层2.而分数显示等文字信息位于最上方的图层。<br>这样，不同图层的物体不会互相访问到，高图层的物体会在视觉效果上遮挡住低图层的物体。</li>
+<li>敌人产生器。<br>通过敌人产生器，可以根据当前的战机状态，游戏关卡等随机产生一个符合要求的敌人。不同的敌机属性，视觉效果，飞行速率，飞行曲线，伤害值，血量等等都是通过其产生的。</li>
+<li>道具掉落系统。<br>游戏中一共会出现7种道具:<br>1．       血包。掉落概率10% 获得后增加当前战机血量百分之十的生命值。<br>2．       伤害增加。掉落概率为5%，增加当前子弹1点伤害值。伤害值每达到5（为了方便演示，已修改为1）的倍数，子弹的视觉效果得到升级。最高20点。<br>3．      战机升级。掉落概率为0.5%，战机获得升级！最高5级。升级后，战机获得全新的视觉外观，更多的生命值，更多的子弹以及更快的子弹发射频率。<br>4．      子弹速率加快。掉落概率为5%。增加当前子弹一定的发射速率。最高为每秒5发。（为了方便演示，默认5发每秒）<br>5．      获得一枚核弹。掉落概率为4% 战机最高可存储9发核弹。<br>6．     获得三枚核弹。掉落概率为1%<br>7．     子弹移动速度加快。掉落概率为5%</li>
+<li>内存释放技术<br>为了保证游戏流畅度，所有元素均采用内存动态释放技术。当一个资源（物品，子弹或者敌机等）不再在屏幕上显示而且判断出以后也不会显示后，会调用该技术释放掉其所占用内存。</li>
+</ol>
+<h2 id="游戏类图"><a href="#游戏类图" class="headerlink" title="游戏类图"></a>游戏类图</h2><p><img src="http://ww3.sinaimg.cn/large/005BpcqWgw1f334abk04cj30dy0kwjsc.jpg" alt=""></p>
+<p>MainScene：<br>    游戏入口界面。有3个菜单选项:进入游戏，最高分，关于。<br>HighScore：<br>    读取由SaveData保存到本地的游戏信息，显示10条历史最高分记录。<br>About：<br>    关于。<br>GameScene：<br>    游戏界面。负责 </p>
+<ol>
+<li>游戏界面的产生，关卡的升级，以及背景图的移动。</li>
+<li>物品的碰撞检测</li>
+<li>游戏的运行逻辑<br>Control：<br>控制层。主要负责游戏中元素的移动与子弹的发射，游戏的暂停与开始，声音的关闭与开启。<br>Plane：<br>战机。主要负责战机的产生，升级以及各项属性的控制与管理等。<br>EnemyBase：<br>敌机。主要负责敌机各项属性的控制与管理等。<br>EnemyManage：<br>敌机控制层。主要负责敌机的产生，销毁，以及移动的控制。<br>Bullet：<br>子弹。主要负责敌机与战机子弹的产生，逻辑，以及子弹的升级。<br>ItemeDrop：<br>物品掉落。主要负责掉落物品产生，以及各类物品的效果实现。<br>SaveData：<br>数据保存。主要负责将游戏信息保存到本地（xml格式），方便以后再使用。<br>GaveOver：<h1 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h1>//Todo<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div><div class="line">341</div><div class="line">342</div><div class="line">343</div><div class="line">344</div><div class="line">345</div><div class="line">346</div><div class="line">347</div><div class="line">348</div><div class="line">349</div><div class="line">350</div><div class="line">351</div><div class="line">352</div><div class="line">353</div><div class="line">354</div><div class="line">355</div><div class="line">356</div><div class="line">357</div><div class="line">358</div><div class="line">359</div><div class="line">360</div><div class="line">361</div><div class="line">362</div><div class="line">363</div><div class="line">364</div><div class="line">365</div><div class="line">366</div><div class="line">367</div><div class="line">368</div><div class="line">369</div><div class="line">370</div><div class="line">371</div><div class="line">372</div><div class="line">373</div><div class="line">374</div><div class="line">375</div><div class="line">376</div><div class="line">377</div><div class="line">378</div><div class="line">379</div><div class="line">380</div><div class="line">381</div><div class="line">382</div><div class="line">383</div><div class="line">384</div><div class="line">385</div><div class="line">386</div><div class="line">387</div><div class="line">388</div><div class="line">389</div><div class="line">390</div><div class="line">391</div><div class="line">392</div><div class="line">393</div><div class="line">394</div><div class="line">395</div><div class="line">396</div><div class="line">397</div><div class="line">398</div><div class="line">399</div><div class="line">400</div><div class="line">401</div><div class="line">402</div><div class="line">403</div><div class="line">404</div><div class="line">405</div><div class="line">406</div><div class="line">407</div><div class="line">408</div><div class="line">409</div><div class="line">410</div><div class="line">411</div><div class="line">412</div><div class="line">413</div><div class="line">414</div><div class="line">415</div><div class="line">416</div><div class="line">417</div><div class="line">418</div><div class="line">419</div><div class="line">420</div><div class="line">421</div><div class="line">422</div><div class="line">423</div><div class="line">424</div><div class="line">425</div><div class="line">426</div><div class="line">427</div><div class="line">428</div><div class="line">429</div><div class="line">430</div><div class="line">431</div><div class="line">432</div><div class="line">433</div><div class="line">434</div><div class="line">435</div><div class="line">436</div><div class="line">437</div><div class="line">438</div><div class="line">439</div><div class="line">440</div><div class="line">441</div><div class="line">442</div><div class="line">443</div><div class="line">444</div><div class="line">445</div><div class="line">446</div><div class="line">447</div><div class="line">448</div></pre></td><td class="code"><pre><div class="line">//MainScene.h:</div><div class="line">#ifndef __MainScene_SCENE_H__</div><div class="line">#define __MainScene_SCENE_H__</div><div class="line"></div><div class="line">#include &quot;cocos2d.h&quot;</div><div class="line">#include &quot;SimpleAudioEngine.h&quot;</div><div class="line">class MainScene : public cocos2d::Layer</div><div class="line">&#123;</div><div class="line">public:</div><div class="line">	static cocos2d::Scene* createScene();</div><div class="line">	void myupdate(float f);</div><div class="line">	virtual bool init();</div><div class="line">	CREATE_FUNC(MainScene);</div><div class="line"></div><div class="line">	void menuCallback(cocos2d::Ref* pSender);//菜单回调函数</div><div class="line">&#125;;</div><div class="line"></div><div class="line">#endif</div><div class="line"></div><div class="line">//GameScene.h:</div><div class="line">#pragma once</div><div class="line">#ifndef GAME_SCENE</div><div class="line">#define GAME_SCENE</div><div class="line">#include &quot;cocos2d.h&quot;</div><div class="line">#include &quot;MainScene.h&quot;</div><div class="line">#include &quot;Plane.h&quot;</div><div class="line">#include &quot;EnemyManager.h&quot;</div><div class="line">#include &quot;Bullet.h&quot;</div><div class="line">#include &quot;ItemDrop.h&quot;</div><div class="line">#include &quot;Controller.h&quot;</div><div class="line"></div><div class="line">using namespace cocos2d;</div><div class="line">class GameScene :Layer &#123;</div><div class="line">private:</div><div class="line">	int level;</div><div class="line">	int status;         //游戏状态  1为正常、2为暂停、3为结束</div><div class="line">	int score;</div><div class="line">public:</div><div class="line">	GameScene();</div><div class="line">	~GameScene();</div><div class="line"></div><div class="line">	bool init();</div><div class="line">	CREATE_FUNC(GameScene);</div><div class="line"></div><div class="line">	static Scene * createScene();</div><div class="line">	static GameScene * instanceGameScene;//gamescene实例</div><div class="line">	void moveBackground(float t);//背景移动</div><div class="line"></div><div class="line">	void setBackGround();</div><div class="line">	void levelUp();//关卡升级</div><div class="line">	int getLevel();</div><div class="line"></div><div class="line">	void gameUpdate(float dt);     // 碰撞检测</div><div class="line">	bool bulletCollisionEnemy(Sprite* pBullet);   // 子弹和敌机碰撞</div><div class="line">	void enemyCollisionPlane();    // 我机和敌机、敌机子弹碰撞</div><div class="line">	bool ItemCollisionPlane(Sprite* pItem);//物体碰撞</div><div class="line">	void toGameOver(float dt);</div><div class="line">	</div><div class="line"></div><div class="line">	MyPlane *planeLayer;</div><div class="line">	Bullet *bulletLayer;</div><div class="line">	EnemyManager *enemyLayer;</div><div class="line">	Controller *controlLayer;</div><div class="line">	ItemDrop *itemLayer;</div><div class="line"></div><div class="line">	//int clearBoom;//清屏导弹</div><div class="line">	void clearAllEnemy();//清除所有敌人和子弹</div><div class="line">	void removeBoom(Node * pSender);</div><div class="line">	void creatClearBoom();//</div><div class="line">	void setBoomNum();//导弹</div><div class="line">	void addBoomNum(int t);</div><div class="line">	void setBoomPic();</div><div class="line">	void particleAct();</div><div class="line">	int boomNum;//</div><div class="line">	void boomAction();</div><div class="line">&#125;;</div><div class="line">#endif</div><div class="line"></div><div class="line">//Bullet.h:</div><div class="line">#pragma once</div><div class="line">#ifndef __Bullet_H__</div><div class="line">#define __Bullet_H__</div><div class="line"></div><div class="line">#include &quot;cocos2d.h&quot;</div><div class="line"></div><div class="line">#include &quot;Plane.h&quot;</div><div class="line">#include &quot;EnemyManager.h&quot;</div><div class="line">#include &quot;SimpleAudioEngine.h&quot;</div><div class="line"></div><div class="line">USING_NS_CC; // 命名空间</div><div class="line"></div><div class="line">class Bullet : public Layer</div><div class="line">&#123;</div><div class="line">public:</div><div class="line">	Bullet();</div><div class="line">	~Bullet();</div><div class="line">	virtual bool init();</div><div class="line">	CREATE_FUNC(Bullet);</div><div class="line"></div><div class="line">public:</div><div class="line">	void bindEnemyManager(EnemyManager* enemyManager);//分数更新</div><div class="line">	void BeginBulletShoot(float dt = 0.0f);	// 开启子弹射击</div><div class="line">	void StopBulletShoot();					// 停止子弹射击</div><div class="line">	void addBullet(float dt);				// 添加子弹</div><div class="line">	void removeBullet(Node* pNode);			// 移除子弹</div><div class="line">	void addEnemyBullet(float dt);				// 添加敌机子弹</div><div class="line">	void removeEnemyBullet(Node* pNode);			// 移除敌机子弹</div><div class="line">	void setDamage(int t);</div><div class="line">	void addDamage(int t);</div><div class="line">	int getDamage();</div><div class="line">	Sprite * setBulletType(); </div><div class="line">	void setBulletPosition(Sprite* bullet, int t);</div><div class="line">	void addOneBullet(int ix);</div><div class="line">	void setAutoBullet();</div><div class="line">	void addKeyBullet();</div><div class="line">	bool autoBullet;</div><div class="line">public:</div><div class="line">	Vector&lt;Sprite*&gt; vecBullet;</div><div class="line">	Vector&lt;Sprite*&gt; vecEnemyBullet;</div><div class="line">	EnemyManager* m_enemyManager;</div><div class="line">	int damage;//攻击力</div><div class="line">	static Bullet* instanceBullet;	//子弹实体</div><div class="line">&#125;;</div><div class="line"></div><div class="line">#endif</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">//Controller.h</div><div class="line">#pragma once</div><div class="line">#ifndef __Controller_H__</div><div class="line">#define __Controller_H__</div><div class="line"></div><div class="line">#include &quot;cocos2d.h&quot;</div><div class="line">#include &quot;SaveData.h&quot;</div><div class="line"></div><div class="line">USING_NS_CC;</div><div class="line"></div><div class="line">class Controller : public Layer</div><div class="line">&#123;</div><div class="line">public:</div><div class="line">	Controller();</div><div class="line">	~Controller();</div><div class="line">	virtual bool init();</div><div class="line">	CREATE_FUNC(Controller);</div><div class="line"></div><div class="line">	//对玩家分数的操作</div><div class="line">	CC_SYNTHESIZE_READONLY(SaveData *, m_saveData, SaveData);</div><div class="line">	void update(float tm);</div><div class="line"></div><div class="line">	//游戏暂停与恢复</div><div class="line">	void menuPauseCallback(cocos2d::Ref* pSender);</div><div class="line"></div><div class="line">	//声音控制</div><div class="line">	void menuMusicCallback(cocos2d::Ref* pSender);</div><div class="line"></div><div class="line">public:</div><div class="line">	MenuItemSprite* pPauseItem;</div><div class="line">	MenuItemSprite* pMusicItem;</div><div class="line">	Label * m_score;</div><div class="line">	Label * score_label;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">#endif</div><div class="line"></div><div class="line">//EnemyBase.h</div><div class="line">#pragma once</div><div class="line">#ifndef __EnemyBase_H__</div><div class="line">#define __EnemyBase_H__</div><div class="line"></div><div class="line">#define HardCode 1</div><div class="line"></div><div class="line">#include &quot;cocos2d.h&quot;</div><div class="line"></div><div class="line">USING_NS_CC;</div><div class="line"></div><div class="line"></div><div class="line">// 敌机生命值</div><div class="line">const int ENEMY1_1 = 1 * HardCode;</div><div class="line">const int ENEMY1_2 = 2 * HardCode;</div><div class="line">const int ENEMY1_3 = 2 * HardCode;</div><div class="line">const int ENEMY2_1 = 8 * HardCode;</div><div class="line">const int ENEMY2_2 = 10 * HardCode;</div><div class="line">const int ENEMY2_3 = 12 * HardCode;</div><div class="line">const int ENEMY3_1 = 8*3 * HardCode;</div><div class="line">const int ENEMY3_2 = 9*3 * HardCode;</div><div class="line">const int ENEMY3_3 = 10*3 * HardCode;</div><div class="line">const int ENEMY4_1 = 16*4 * HardCode;</div><div class="line">const int ENEMY4_2 = 17*4 * HardCode;</div><div class="line">const int ENEMY4_3 = 18*4 * HardCode;</div><div class="line">const int ENEMY5_1 = 32*5 * HardCode;</div><div class="line">const int ENEMY5_2 = 35*5 * HardCode;</div><div class="line">const int ENEMY5_3 = 40*5 * HardCode;</div><div class="line">const int ENEMYBOSS1 = 25 * HardCode;</div><div class="line">const int ENEMYBOSS2 = 50 * HardCode;</div><div class="line">const int ENEMYBOSS3 = 100 * HardCode;</div><div class="line">const int ENEMYBOSS4 = 200 * HardCode;</div><div class="line">const int ENEMYBOSS5 = 400 * HardCode;</div><div class="line">const int ENEMYBOSS6 = 800 * HardCode;</div><div class="line"></div><div class="line">class EnemyBase : public Node</div><div class="line">&#123;</div><div class="line">public:</div><div class="line">	EnemyBase();</div><div class="line">	~EnemyBase();</div><div class="line">	virtual bool init();</div><div class="line">	CREATE_FUNC(EnemyBase);</div><div class="line"></div><div class="line">public:</div><div class="line">	std::map&lt;std::string, int&gt; enemyHP;//飞机的HP(不能在头文件中定义全局变量，否则会产生多重定义)</div><div class="line">	void setEnemyByType(std::string enType);//飞机产生</div><div class="line">	Sprite* getSprite();//获得该实例</div><div class="line"></div><div class="line">	int getScore();</div><div class="line">	int getLife();</div><div class="line">	bool loseLife(int t);</div><div class="line">	Rect getBoundingBox();</div><div class="line"></div><div class="line">private:</div><div class="line">	Sprite *pEnemySprite;//实例</div><div class="line">	int nLife;</div><div class="line">	int nScore;</div><div class="line">&#125;;</div><div class="line">#endif</div><div class="line"></div><div class="line">//EnemyManager.h</div><div class="line">#pragma once</div><div class="line">#ifndef __EnemyManager_H__</div><div class="line">#define __EnemyManager_H__</div><div class="line"></div><div class="line">#include &quot;cocos2d.h&quot;</div><div class="line">#include &quot;EnemyBase.h&quot;</div><div class="line">#include &quot;Controller.h&quot;</div><div class="line"></div><div class="line">USING_NS_CC;</div><div class="line"></div><div class="line">class EnemyManager : public Layer</div><div class="line">&#123;</div><div class="line">public:</div><div class="line">	EnemyManager();</div><div class="line">	~EnemyManager();</div><div class="line">	virtual bool init();</div><div class="line">	CREATE_FUNC(EnemyManager);</div><div class="line">public:</div><div class="line">	//绑定控制器(更新分数，敌机的移动)</div><div class="line">	void bindController(Controller* controller);</div><div class="line"></div><div class="line">	//根据分数决定添加敌机速度</div><div class="line">	//void addSpeed(float dt);</div><div class="line"></div><div class="line">	// 添加敌机</div><div class="line">	void addEnemy(float dt);</div><div class="line"></div><div class="line">	// 敌机爆炸</div><div class="line">	void blowupEnemy(EnemyBase* pEnemySprite);</div><div class="line"></div><div class="line">	// 移除敌机pNode</div><div class="line">	void removeEnemy(Node *pNode);</div><div class="line"></div><div class="line">	//爆炸动画</div><div class="line">	Animate* boomAnimate();</div><div class="line">	</div><div class="line">	//运动轨迹产生器</div><div class="line">	Sequence* EnemyManager::MovingTrack();</div><div class="line"></div><div class="line">	void removeAct(Node * pSender);</div><div class="line"></div><div class="line">	void checkCanLevel(int score);</div><div class="line">public:</div><div class="line">	//Vector&lt;Sprite*&gt; vecItem;//掉落物品</div><div class="line">	Vector&lt;EnemyBase*&gt; vecEnemy;// 敌机容器，用于遍历碰撞问题</div><div class="line">	Controller* m_controlLayer;	//控制器</div><div class="line">	float m_fCreatSpeed=1;	//添加敌机速度</div><div class="line">	float m_fEnemy;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">#endif</div><div class="line"></div><div class="line">//GameOver.h</div><div class="line"></div><div class="line">#ifndef __GameOver_H__</div><div class="line">#define __GameOver_H__</div><div class="line"></div><div class="line">#include &quot;cocos2d.h&quot;</div><div class="line">#include &quot;MainScene.h&quot;</div><div class="line"></div><div class="line">USING_NS_CC;</div><div class="line"></div><div class="line">class GameOver : public cocos2d::Layer</div><div class="line">&#123;</div><div class="line">public:</div><div class="line">	// there&apos;s no &apos;id&apos; in cpp, so we recommend returning the class instance pointer</div><div class="line">	static cocos2d::Scene* createScene();</div><div class="line"></div><div class="line">	// Here&apos;s a difference. Method &apos;init&apos; in cocos2d-x returns bool, instead of returning &apos;id&apos; in cocos2d-iphone</div><div class="line">	virtual bool init();</div><div class="line"></div><div class="line">	// 退出游戏</div><div class="line">	void menuCloseCallback(cocos2d::Ref* pSender);</div><div class="line"></div><div class="line">	// 返回主界面</div><div class="line">	void menuMainCallback(cocos2d::Ref* pSender);</div><div class="line"></div><div class="line">	// implement the &quot;static create()&quot; method manually</div><div class="line">	CREATE_FUNC(GameOver);</div><div class="line"></div><div class="line">public:</div><div class="line"></div><div class="line">&#125;;</div><div class="line"></div><div class="line">#endif</div><div class="line"></div><div class="line">//ItemDrop.h</div><div class="line">#pragma once</div><div class="line">#ifndef __ItemDrop_H__</div><div class="line">#define __ItemDrop_H__</div><div class="line"></div><div class="line">#include &quot;cocos2d.h&quot;</div><div class="line">#include &quot;SimpleAudioEngine.h&quot;</div><div class="line">USING_NS_CC; </div><div class="line"></div><div class="line">class ItemDrop : public Layer </div><div class="line">&#123;</div><div class="line">public:</div><div class="line">	ItemDrop();</div><div class="line">	~ItemDrop();</div><div class="line">	virtual bool init();</div><div class="line">	CREATE_FUNC(ItemDrop);</div><div class="line"></div><div class="line">	//随机产生一个物品</div><div class="line">	void createItem(Point p);</div><div class="line"></div><div class="line">	//</div><div class="line">	void removeItem(Node *pNode);</div><div class="line">public:</div><div class="line">	Vector&lt;Sprite*&gt; vecItem;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">#endif</div><div class="line"></div><div class="line">//Plane.h</div><div class="line">#ifndef __MyPlane_H__</div><div class="line">#define __MyPlane_H__</div><div class="line"></div><div class="line">#include &quot;cocos2d.h&quot;</div><div class="line"></div><div class="line">USING_NS_CC;</div><div class="line">#define SCENE_WIDTH   512 //视野宽度</div><div class="line">#define SCENE_HEIGHT   768  //视野高度</div><div class="line">enum</div><div class="line">&#123;</div><div class="line">	AIRTAG = 1,</div><div class="line">	AIRPLANE2,</div><div class="line">	AIRPLANE3,</div><div class="line">&#125;;</div><div class="line"></div><div class="line">class MyPlane : public Layer</div><div class="line">&#123;</div><div class="line">public:</div><div class="line">	MyPlane();</div><div class="line">	~MyPlane();</div><div class="line"></div><div class="line">	static MyPlane* create();</div><div class="line"></div><div class="line">	virtual bool init();</div><div class="line">	int AIRLEVEL = 1;//飞机等级</div><div class="line">	int AIRBASEHP = 20;</div><div class="line">	int AIRHP = 20;//飞机的生命总数</div><div class="line">public:</div><div class="line">	//飞机移动</div><div class="line">	virtual bool onTouchBegan(Touch *pTouch, Event *pEvent);//触摸回调，开始</div><div class="line">	virtual void onTouchMoved(Touch *pTouch, Event *pEvent);//触摸回调，移动</div><div class="line">	void keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);//键盘回调</div><div class="line">	//飞机动画</div><div class="line">	//Animate* planeFly();</div><div class="line">	</div><div class="line">	//边界检测</div><div class="line">	//void borderCheck(float dt);</div><div class="line">	//飞机爆炸</div><div class="line">	Animate* boomAnimate();</div><div class="line">	void blowUp();</div><div class="line"></div><div class="line">	//移除飞机</div><div class="line">	void removePlane();</div><div class="line"></div><div class="line">	//获取生命值</div><div class="line">	int getHP();</div><div class="line"></div><div class="line">	//增加生命值</div><div class="line">	void addHP(int t);</div><div class="line"></div><div class="line">	//血条更新</div><div class="line">	void setBloodbar();</div><div class="line"></div><div class="line">	// 减少生命值,return false：飞机死亡</div><div class="line">	bool loseHP(int t);</div><div class="line"></div><div class="line">	// 获取等级</div><div class="line">	int getAirLevel();</div><div class="line"></div><div class="line">	//升级</div><div class="line">	void airLevelUp();</div><div class="line"></div><div class="line">public:</div><div class="line">	static MyPlane* instancePlane;	//飞机实体</div><div class="line">	CCProgressTimer *pBloodProGress; //血条</div><div class="line"></div><div class="line">private:</div><div class="line">	int m_hp;</div><div class="line">	Label* hpItem1;</div><div class="line">	Label* hpItem2;</div><div class="line"></div><div class="line">&#125;;</div><div class="line"></div><div class="line">#endif</div><div class="line"></div><div class="line">//SaveData.h</div><div class="line">#pragma once</div><div class="line">#ifndef __SaveData_H__</div><div class="line">#define __SaveData_H__</div><div class="line"></div><div class="line">#include &quot;cocos2d.h&quot;</div><div class="line"></div><div class="line">USING_NS_CC;</div><div class="line"></div><div class="line">class SaveData : public Ref</div><div class="line">&#123;</div><div class="line">public:</div><div class="line">	SaveData();</div><div class="line">	~SaveData();</div><div class="line">public:</div><div class="line">	bool init();</div><div class="line">	CREATE_FUNC(SaveData);</div><div class="line">private:</div><div class="line">	//用户数据操作的成员变量</div><div class="line">	UserDefault * m_userDefault;</div><div class="line">	//该集合中保存的是分数的记录，因为分数是基本数据类型，放到Vector中的内容必须是Ref的子类，所以要用Value</div><div class="line">	//封装一下，但封装完毕却不是使用vector来存放，而是用ValueVector</div><div class="line">	ValueVector m_vector;</div><div class="line">	//记录玩家的当前分数</div><div class="line">	CC_SYNTHESIZE(int, m_score, Score);</div><div class="line">public:</div><div class="line">	void save();</div><div class="line">&#125;;</div><div class="line"></div><div class="line">#endif</div></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/04/20/cocos2dx-飞机大战/">cocos2dx-飞机大战</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Bingo</a></p>
+        <p><span>发布时间:</span>2016-04-20, 13:38:34</p>
+        <p><span>最后更新:</span>2016-05-01, 17:16:41</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/04/20/cocos2dx-飞机大战/" title="cocos2dx-飞机大战">http://blog.acbingo.cn/2016/04/20/cocos2dx-飞机大战/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.acbingo.cn/2016/04/20/cocos2dx-飞机大战/　　作者: Bingo" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/04/25/coursera_计算机组成学习笔记/">
+                    coursera_计算机组成学习笔记
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/04/14/android_ping不通电脑/">
+                    android_ping不通电脑
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#游戏运行界面"><span class="toc-number">1.</span> <span class="toc-text">游戏运行界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#面试"><span class="toc-number">2.</span> <span class="toc-text">面试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我实现的游戏内容主要有以下几个特点："><span class="toc-number">3.</span> <span class="toc-text">我实现的游戏内容主要有以下几个特点：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#值得一提的技术"><span class="toc-number">4.</span> <span class="toc-text">值得一提的技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#游戏类图"><span class="toc-number">5.</span> <span class="toc-text">游戏类图</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#源代码"><span class="toc-number"></span> <span class="toc-text">源代码</span></a>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"cocos2dx-飞机大战　| Bingo's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/04/25/coursera_计算机组成学习笔记/" title="上一篇: coursera_计算机组成学习笔记">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/04/14/android_ping不通电脑/" title="下一篇: android_ping不通电脑">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/一步一步学习红黑树-2/">一步一步学习红黑树-2</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/04/一步一步学习红黑树/">一步一步学习红黑树-1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/回文解码/">回文解码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/C++中虚析构函数的作用/">C++中虚析构函数的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/const/">const</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/const与常成员函数/">const与常成员函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/31/虚拟继承/">虚拟继承</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/31/函数指针/">函数指针</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/记事本/">记事本</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/StarFiles/">StarFiles</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/酒店管理系统/">酒店管理系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/飞机大战/">飞机大战</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/仿函数/">仿函数/函数对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/二叉树中和为某一值的路径/">二叉树中和为某一值的路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/递归实现反转列表/">递归实现反转链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/快速幂/">快速幂</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/bitset的用法/">bitset的用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/二分查找、归并排序和快速排序/">二分查找、归并排序和快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/25/重建二叉树/">重建二叉树</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/25/leetcode_5/">LeetCode_5:Longest Palindromic Substring</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_4/">LeetCode_4:Median of Two Sorted Arrays</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_3/">LeetCode_3:Longest Substring Without Repeating Characters</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_2/">LeetCode_2:Add Two Numbers</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_1_Two Sum/">LeetCode_1:Two Sum</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/07/Bingo's_ShadowSocks使用说明/">Bingo's_Shadowsocks</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/如何优雅的开启wifi热点/">如何优雅的开启wifi热点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/如何优雅的连接指定wifi热点/">如何优雅的连接指定wifi热点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/对AndroidWifi状态广播的研究/">对AndroidWifi状态广播的研究</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/coursera数据结构_字符串_课后作业/">coursera数据结构_字符串_课后作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/简单几步在Android_Studio上实现二维码的扫描/">简单几步在Android_Studio上实现二维码的生成与扫描</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/coursera_算法课后习题/">coursera_算法课后习题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/coursera_计算机组成学习笔记/">coursera_计算机组成学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/20/cocos2dx-飞机大战/">cocos2dx-飞机大战</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/14/android_ping不通电脑/">android_ping不通电脑</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/14/android创建与连接热点/">android创建与连接热点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/01/coursera_算法_递归/">coursera_算法_递归</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/30/coursera_操作系统学习笔记/">coursera_操作系统学习笔记_计算机操作系统概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/29/编译原理_中科大公开课_第一单元编译器介绍作业/">编译原理_中科大公开课_第一单元编译器介绍作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/25/关于Inflater与findViewById()的思考/">关于Inflater与findViewById()的思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/11/coursera_魔兽世界终结版/">coursera_魔兽世界终结版</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/05/coursera_算法作业_枚举/">coursera_算法作业_枚举</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/27/coursera_c++高级主体和c++11新特性/">coursera_c++高级主体和c++11新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/27/coursera_c++期末考试/">coursera_c++期末考试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/24/coursera_STL2作业/">coursera_STL2作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/21/coursera容器适配器/">coursera容器适配器_算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/21/coursera标准模版库STL2/">coursera标准模版库STL2</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/20/coursera编程作业-STL1/">coursera编程作业-STL1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/20/coursera疑问/">coursera疑问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/19/coursera学习笔记-函数对象/">coursera学习笔记-函数对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/19/coursera学习笔记-顺序容器Vector/">coursera学习笔记-顺序容器Vector、List和Deque</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/05/算法学习笔记-14-最长公共子序列/">算法学习笔记-14-最长公共子序列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/03/算法学习笔记-13-矩阵连乘问题/">算法学习笔记-13-矩阵连乘问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/01/算法学习笔记-12-循环赛日程表/">算法学习笔记-12-循环赛日程表</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/01/算法学习笔记-11-最接近点对问题/">算法学习笔记-11-最接近点对问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/01/算法学习笔记-10-线性时间选择/">算法学习笔记-10-线性时间选择</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/27/算法学习笔记-9-快速排序/">算法学习笔记-9-快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/26/算法学习笔记-8-合并排序/">算法学习笔记-8-归并排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/24/算法学习笔记-7-棋盘覆盖问题/">算法学习笔记-7-棋盘覆盖问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/22/算法学习笔记-6-Strassen矩阵乘法/">算法学习笔记-6-Strassen矩阵乘法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/21/算法学习笔记-5-Hanoi塔问题/">算法学习笔记-5-Hanoi塔问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/20/算法学习笔记-4-整数划分问题/">算法学习笔记-4-整数划分问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/19/算法学习笔记-3-排列问题/">算法学习笔记-3-排列问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/18/算法学习笔记-2-递归的概念/">算法学习笔记-2-递归的概念</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/17/coursera_标准模板库STL/">coursera_标准模板库STL</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/17/算法学习笔记-0-序/">算法学习笔记-0-序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/17/算法学习笔记-1-NP完全性理论/">算法学习笔记-1-NP完全性理论</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/14/文件操作和模板_编程作业/">文件操作和模板_编程作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/11/ubuntu下安装最新的nodejs(v4.2.2)/">ubuntu下安装最新的nodejs(v4.2.2)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/11/ubuntu14.04的环境变量/">ubuntu14.04的环境变量</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/01/coursera学习笔记_文件操作和模板/">coursera学习笔记_文件操作和模板</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/31/coursera学习笔记_多态和虚函数/">coursera学习笔记_多态和虚函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/28/Coursera_程序设计与晋级_继承与派生_编程作业/">Coursera_程序设计与晋级_继承与派生_编程作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/22/科大OJ-数据结构-DNA序列/">科大OJ-数据结构-DNA序列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/20/科大OJ-数据结构-求表达式串的后缀表达式和值/">科大OJ-数据结构-求表达式串的后缀表达式和值</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/01/科大OJ-数据结构-击鼓传花/">科大OJ-数据结构-击鼓传花</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/30/科大OJ-数据结构-求集合的交并补集/">科大OJ-数据结构-求集合的交并补集</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/27/hexo无法本地访问/">hexo无法本地访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/26/继承与派生/">coursera学习笔记_继承与派生</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/26/大数类模板/">大数类模板</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/15/vimium学习笔记/">vimium学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/04/程序员矩阵/">程序员矩阵</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/03/coursera学习笔记_运算符重载/">coursera学习笔记_运算符重载</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/01/写hexo博客、markdown文章时图床的挑选/">写hexo博客、markdown文章时图床的挑选</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/31/coursera学习笔记-c++程序设计/">coursera学习笔记-c++程序设计</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/29/Linux下C语言应用编程学习笔记/">Linux下C语言应用编程学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/28/linux学习笔记2/">linux学习笔记2</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/27/Bingo's exVim/">Bingo的VIM</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/27/linux下去掉^M的方法/">linux下去掉^M的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/27/vim的持久撤销功能/">vim的持久撤销功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/25/linux学习笔记/">linux学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/线段树学习笔记-7-hdu1698/">线段树学习笔记-7-hdu1698</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/线段树学习笔记-6-区间更新/">线段树学习笔记-6-区间更新</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/Coursera_程序设计与算法_C程序设计进阶/">Coursera_程序设计与算法_C程序设计进阶</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/线段树学习笔记-5-hdu2795/">线段树学习笔记-5-hdu2795</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/14/线段树学习笔记-4-hdu1394/">线段树学习笔记-4-hdu1394</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/14/求逆序对的个数/">求逆序对的个数</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/14/线段树学习笔记-3-hdu1754/">线段树学习笔记-3-hdu1754</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/13/线段树学习笔记-2-hdu1166/">线段树学习笔记-2-hdu1166</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/13/线段树学习笔记/">线段树学习笔记-1-入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/11/Coursera_程序设计与算法_计算导论与C语言基础_期末编程测试/">Coursera_程序设计与算法_计算导论与C语言基础_期末编程测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/Coursera_程序设计与算法_C程序设计进阶_C程序中的函数/">Coursera_程序设计与算法_计算导论与C语言基础_数组应用练习</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/Coursera_程序设计与算法_计算导论与C语言基础_数组应用练习/">Coursera_程序设计与算法_计算导论与C语言基础_数组应用练习</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/hdu4821 String/">hdu4821 String</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/09/Rolling Hash(Rabin-Karp算法)匹配字符串/">Rolling Hash(Rabin-Karp算法)匹配字符串</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/09/设置vim的默认工作路径/">设置vim的默认工作路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/滑动窗口的单调队列/">滑动窗口的单调队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/ssh -T git@github.com出现Permission denied (publickey)/">ssh -T git@github.com出现Permission denied (publickey)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/29/UVa10791-Minimum-Sum-LCM/">UVa10791-Minimum Sum LCM</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/29/uva100/">uva100</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016 Bingo
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

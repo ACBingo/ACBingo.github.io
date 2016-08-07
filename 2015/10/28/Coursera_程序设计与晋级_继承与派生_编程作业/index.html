@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Bingo" />
+
+
+
+<meta name="description" content="编程题＃1来源: POJ (Coursera声明：在POJ上完成的习题将不会计入Coursera的最后成绩。)
+注意： 总时间限制: 1000ms 内存限制: 65536kB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Coursera_程序设计与晋级_继承与派生_编程作业">
+<meta property="og:url" content="http://blog.acbingo.cn/2015/10/28/Coursera_程序设计与晋级_继承与派生_编程作业/index.html">
+<meta property="og:site_name" content="Bingo's Blog">
+<meta property="og:description" content="编程题＃1来源: POJ (Coursera声明：在POJ上完成的习题将不会计入Coursera的最后成绩。)
+注意： 总时间限制: 1000ms 内存限制: 65536kB">
+<meta property="og:updated_time" content="2015-11-28T08:44:06.360Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Coursera_程序设计与晋级_继承与派生_编程作业">
+<meta name="twitter:description" content="编程题＃1来源: POJ (Coursera声明：在POJ上完成的习题将不会计入Coursera的最后成绩。)
+注意： 总时间限制: 1000ms 内存限制: 65536kB">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Bingo&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Coursera_程序设计与晋级_继承与派生_编程作业 | Bingo&#39;s Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Bingo</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">Here&#39;s My Second Brains</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:123@123.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Array/">Array</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hash-Table/">Hash Table</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LeetCode/">LeetCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linked-List/">Linked List</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/">Math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/">STL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anroid/">anroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/books/">books</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c#</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocos/">cocos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocos2dx/">cocos2dx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/const/">const</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coursera/">coursera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hash/">hash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hdu/">hdu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/offer/">offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/other/">other</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/poj/">poj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string/">string</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/uva/">uva</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二分/">二分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二叉树/">二叉树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/位运算/">位运算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其它/">其它</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分治/">分治</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态规划/">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单调队列/">单调队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/回溯/">回溯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串/">字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/指针/">指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/枚举/">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树/">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/红黑树/">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线段树/">线段树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/继承/">继承</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译原理/">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚函数/">虚函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆序对/">逆序对</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/递归/">递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/链表/">链表</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于前端</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Bingo</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Bingo</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Here&#39;s My Second Brains</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:123@123.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Coursera_程序设计与晋级_继承与派生_编程作业" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/10/28/Coursera_程序设计与晋级_继承与派生_编程作业/" class="article-date">
+      <time datetime="2015-10-28T12:51:48.000Z" itemprop="datePublished">2015-10-28</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Coursera_程序设计与晋级_继承与派生_编程作业
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/coursera/">coursera</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="编程题＃1"><a href="#编程题＃1" class="headerlink" title="编程题＃1"></a>编程题＃1</h1><p>来源: POJ (Coursera声明：在POJ上完成的习题将不会计入Coursera的最后成绩。)</p>
+<p>注意： 总时间限制: 1000ms 内存限制: 65536kB<br><a id="more"></a><br>描述<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">写一个MyString 类，使得下面程序的输出结果是：</div><div class="line"></div><div class="line">1. abcd-efgh-abcd-</div><div class="line"></div><div class="line">2. abcd-</div><div class="line"></div><div class="line">3.</div><div class="line"></div><div class="line">4. abcd-efgh-</div><div class="line"></div><div class="line">5. efgh-</div><div class="line"></div><div class="line">6. c</div><div class="line"></div><div class="line">7. abcd-</div><div class="line"></div><div class="line">8. ijAl-</div><div class="line"></div><div class="line">9. ijAl-mnop</div><div class="line"></div><div class="line">10. qrst-abcd-</div><div class="line"></div><div class="line">11. abcd-qrst-abcd- uvw xyz</div><div class="line"></div><div class="line">about</div><div class="line"></div><div class="line">big</div><div class="line"></div><div class="line">me</div><div class="line"></div><div class="line">take</div><div class="line"></div><div class="line">abcd</div><div class="line"></div><div class="line">qrst-abcd-</div></pre></td></tr></table></figure></p>
+<p>要求：MyString类必须是从C++的标准类string类派生而来。提示1：如果将程序中所有 “MyString” 用”string” 替换，那么题目的程序中除了最后两条语句编译无法通过外，其他语句都没有问题，而且输出和前面给的结果吻合。也就是说，MyString类对 string类的功能扩充只体现在最后两条语句上面。提示2: string类有一个成员函数 string substr(int start,int length); 能够求从 start位置开始，长度为length的子串</p>
+<p>程序：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;cstring&gt;</div><div class="line">#include &lt;cstdlib&gt;</div><div class="line">using namespace std;</div><div class="line">// 在此处补充你的代码</div><div class="line">int CompareString( const void * e1, const void * e2) &#123;</div><div class="line">    MyString * s1 = (MyString * ) e1;</div><div class="line">    MyString * s2 = (MyString * ) e2;</div><div class="line">    if( *s1 &lt; *s2 ) return -1;</div><div class="line">    else if( *s1 == *s2 ) return 0;</div><div class="line">    else if( *s1 &gt; *s2 ) return 1;</div><div class="line">&#125;</div><div class="line">int main() &#123;</div><div class="line">    MyString s1(&quot;abcd-&quot;),s2,s3(&quot;efgh-&quot;),s4(s1);</div><div class="line">    MyString SArray[4] = &#123;&quot;big&quot;,&quot;me&quot;,&quot;about&quot;,&quot;take&quot;&#125;;</div><div class="line">    cout &lt;&lt; &quot;1. &quot; &lt;&lt; s1 &lt;&lt; s2 &lt;&lt; s3&lt;&lt; s4&lt;&lt; endl;</div><div class="line">    s4 = s3; s3 = s1 + s3;</div><div class="line">    cout &lt;&lt; &quot;2. &quot; &lt;&lt; s1 &lt;&lt; endl;</div><div class="line">    cout &lt;&lt; &quot;3. &quot; &lt;&lt; s2 &lt;&lt; endl;</div><div class="line">    cout &lt;&lt; &quot;4. &quot; &lt;&lt; s3 &lt;&lt; endl;</div><div class="line">    cout &lt;&lt; &quot;5. &quot; &lt;&lt; s4 &lt;&lt; endl;</div><div class="line">    cout &lt;&lt; &quot;6. &quot; &lt;&lt; s1[2] &lt;&lt; endl;</div><div class="line">    s2 = s1; s1 = &quot;ijkl-&quot;;</div><div class="line">    s1[2] = &apos;A&apos; ;</div><div class="line">    cout &lt;&lt; &quot;7. &quot; &lt;&lt; s2 &lt;&lt; endl;</div><div class="line">    cout &lt;&lt; &quot;8. &quot; &lt;&lt; s1 &lt;&lt; endl;</div><div class="line">    s1 += &quot;mnop&quot;;</div><div class="line">    cout &lt;&lt; &quot;9. &quot; &lt;&lt; s1 &lt;&lt; endl;</div><div class="line">    s4 = &quot;qrst-&quot; + s2;</div><div class="line">    cout &lt;&lt; &quot;10. &quot; &lt;&lt; s4 &lt;&lt; endl;</div><div class="line">    s1 = s2 + s4 + &quot; uvw &quot; + &quot;xyz&quot;;</div><div class="line">    cout &lt;&lt; &quot;11. &quot; &lt;&lt; s1 &lt;&lt; endl;</div><div class="line">    qsort(SArray,4,sizeof(MyString), CompareString);</div><div class="line">    for( int i = 0;i &lt; 4;++i )</div><div class="line">        cout &lt;&lt; SArray[i] &lt;&lt; endl;</div><div class="line">    //输出s1从下标0开始长度为4的子串</div><div class="line">    cout &lt;&lt; s1(0,4) &lt;&lt; endl;</div><div class="line">    //输出s1从下标为5开始长度为10的子串</div><div class="line">    cout &lt;&lt; s1(5,10) &lt;&lt; endl;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>输入</p>
+<p>无</p>
+<p>输出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line">1. abcd-efgh-abcd-</div><div class="line"></div><div class="line">2. abcd-</div><div class="line"></div><div class="line">3.</div><div class="line"></div><div class="line">4. abcd-efgh-</div><div class="line"></div><div class="line">5. efgh-</div><div class="line"></div><div class="line">6. c</div><div class="line"></div><div class="line">7. abcd-</div><div class="line"></div><div class="line">8. ijAl-</div><div class="line"></div><div class="line">9. ijAl-mnop</div><div class="line"></div><div class="line">10. qrst-abcd-</div><div class="line"></div><div class="line">11. abcd-qrst-abcd- uvw xyz</div><div class="line"></div><div class="line">about</div><div class="line"></div><div class="line">big</div><div class="line"></div><div class="line">me</div><div class="line"></div><div class="line">take</div><div class="line"></div><div class="line">abcd</div><div class="line"></div><div class="line">qrst-abcd-</div><div class="line"></div><div class="line">样例输入</div><div class="line"></div><div class="line">无</div><div class="line">样例输出</div><div class="line"></div><div class="line">1. abcd-efgh-abcd-</div><div class="line">2. abcd-</div><div class="line">3.</div><div class="line">4. abcd-efgh-</div><div class="line">5. efgh-</div><div class="line">6. c</div><div class="line">7. abcd-</div><div class="line">8. ijAl-</div><div class="line">9. ijAl-mnop</div><div class="line">10. qrst-abcd-</div><div class="line">11. abcd-qrst-abcd- uvw xyz</div><div class="line">about</div><div class="line">big</div><div class="line">me</div><div class="line">take</div><div class="line">abcd</div><div class="line">qrst-abcd-</div></pre></td></tr></table></figure></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>提示就是答案= =<br>不要想复杂了。。。继承string类就可以了<br>我一开始居然几乎重写了整个string类。。。花了半天居然还写过了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">class MyString : public string</div><div class="line">&#123;</div><div class="line">public:</div><div class="line">		MyString():string() &#123;&#125;;</div><div class="line">		MyString( const char * s):string(s)&#123;&#125;;</div><div class="line">    	MyString( const string &amp; s ): string(s)&#123;&#125;;</div><div class="line">    	MyString operator() ( int s, int l)</div><div class="line">		&#123;</div><div class="line">			return this-&gt;substr(s,l);</div><div class="line">		&#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h1 id="编程题＃2：-魔兽世界之二：装备"><a href="#编程题＃2：-魔兽世界之二：装备" class="headerlink" title="编程题＃2： 魔兽世界之二：装备"></a>编程题＃2： 魔兽世界之二：装备</h1><p>来源: POJ (Coursera声明：在POJ上完成的习题将不会计入Coursera的最后成绩。)</p>
+<p>注意： 总时间限制: 1000ms 内存限制: 65536kB</p>
+<p>描述</p>
+<p>魔兽世界的西面是红魔军的司令部，东面是蓝魔军的司令部。两个司令部之间是依次排列的若干城市。</p>
+<p>红司令部，City 1，City 2，……，City n，蓝司令部</p>
+<p>两军的司令部都会制造武士。武士一共有 dragon 、ninja、iceman、lion、wolf 五种。每种武士都有编号、生命值这两种属性。</p>
+<p>有的武士可以拥有武器。武器有三种，sword, bomb,和arrow，编号分别为0,1,2。</p>
+<p>双方的武士编号都是从1开始计算。红方制造出来的第 n 个武士，编号就是n。同样，蓝方制造出来的第 n 个武士，编号也是n。</p>
+<p>不同的武士有不同的特点。</p>
+<p>dragon 可以拥有一件武器。编号为n的dragon降生时即获得编号为 n%3 的武器。dragon还有“士气”这个属性，是个浮点数，其值为它降生后其司令部剩余生命元的数量除以造dragon所需的生命元数量。</p>
+<p>ninjia可以拥有两件武器。编号为n的ninjia降生时即获得编号为 n%3 和 (n+1)%3的武器。</p>
+<p>iceman有一件武器。编号为n的iceman降生时即获得编号为 n%3 的武器。</p>
+<p>lion 有“忠诚度”这个属性，其值等于它降生后其司令部剩余生命元的数目。</p>
+<p>wolf没特点。</p>
+<p>请注意，在以后的题目里，武士的士气，生命值，忠诚度在其生存期间都可能发生变化，都有作用，武士手中的武器随着使用攻击力也会发生变化。</p>
+<p>武士在刚降生的时候有一个生命值。</p>
+<p>在每个整点，双方的司令部中各有一个武士降生。</p>
+<p>红方司令部按照 iceman、lion、wolf、ninja、dragon 的顺序循环制造武士。</p>
+<p>蓝方司令部按照 lion、dragon、ninja、iceman、wolf 的顺序循环制造武士。</p>
+<p>制造武士需要生命元。</p>
+<p>制造一个初始生命值为 m 的武士，司令部中的生命元就要减少 m 个。</p>
+<p>如果司令部中的生命元不足以制造某个按顺序应该制造的武士，那么司令部就试图制造下一个。如果所有武士都不能制造了，则司令部停止制造武士。</p>
+<p>给定一个时间，和双方司令部的初始生命元数目，要求你将从0点0分开始到双方司令部停止制造武士为止的所有事件按顺序输出。</p>
+<p>一共有两种事件，其对应的输出样例如下：</p>
+<p>1) 武士降生</p>
+<p>输出样例： 004 blue lion 5 born with strength 5,2 lion in red headquarter</p>
+<p>表示在 4点整，编号为5的蓝魔lion武士降生，它降生时生命值为5,降生后蓝魔司令部里共有2个lion武士。(为简单起见，不考虑单词的复数形式)注意，每制造出一个新的武士，都要输出此时司令部里共有多少个该种武士。</p>
+<p>如果造出的是dragon，那么还要输出一行，例：</p>
+<p>It has a arrow,and it’s morale is 23.34</p>
+<p>表示该dragon降生时得到了arrow,其士气是23.34（为简单起见，本题中arrow前面的冠词用a,不用an，士气精确到小数点后面2位，四舍五入）</p>
+<p>如果造出的是ninjia，那么还要输出一行，例：</p>
+<p>It has a bomb and a arrow</p>
+<p>表示该ninjia降生时得到了bomb和arrow。</p>
+<p>如果造出的是iceman，那么还要输出一行，例：</p>
+<p>It has a sword</p>
+<p>表示该iceman降生时得到了sword。</p>
+<p>如果造出的是lion，那么还要输出一行，例：</p>
+<p>It’s loyalty is 24</p>
+<p>表示该lion降生时的忠诚度是24。</p>
+<p>2) 司令部停止制造武士</p>
+<p>输出样例： 010 red headquarter stops making warriors</p>
+<p>表示在 10点整，红方司令部停止制造武士</p>
+<p>输出事件时：</p>
+<p>首先按时间顺序输出；</p>
+<p>同一时间发生的事件，先输出红司令部的，再输出蓝司令部的。</p>
+<p>输入</p>
+<p>第一行是一个整数,代表测试数据组数。</p>
+<p>每组测试数据共两行。</p>
+<p>第一行，一个整数M。其含义为： 每个司令部一开始都有M个生命元( 1 &lt;= M &lt;= 10000)</p>
+<p>第二行：五个整数，依次是 dragon 、ninja、iceman、lion、wolf 的初始生命值。它们都大于0小于等于10000</p>
+<p>输出</p>
+<p>对每组测试数据，要求输出从0时0分开始，到双方司令部都停止制造武士为止的所有事件。</p>
+<p>对每组测试数据，首先输出“Case:n” n是测试数据的编号，从1开始</p>
+<p>接下来按恰当的顺序和格式输出所有事件。每个事件都以事件发生的时间开头，时间以小时为单位，有三位。</p>
+<p>样例输入</p>
+<p>1<br>20<br>3 4 5 6 7<br>样例输出</p>
+<p>Case:1<br>000 red iceman 1 born with strength 5,1 iceman in red headquarter<br>It has a bomb<br>000 blue lion 1 born with strength 6,1 lion in blue headquarter<br>It’s loyalty is 14<br>001 red lion 2 born with strength 6,1 lion in red headquarter<br>It’s loyalty is 9<br>001 blue dragon 2 born with strength 3,1 dragon in blue headquarter<br>It has a arrow,and it’s morale is 3.67<br>002 red wolf 3 born with strength 7,1 wolf in red headquarter<br>002 blue ninja 3 born with strength 4,1 ninja in blue headquarter<br>It has a sword and a bomb<br>003 red headquarter stops making warriors<br>003 blue iceman 4 born with strength 5,1 iceman in blue headquarter<br>It has a bomb<br>004 blue headquarter stops making warriors<br>How to submit<br>When you’re ready to submit, you can upload files for each part of the assignment on the “My submission” tab.</p>
+<h2 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h2><p>c++基本功啊！！！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;cstdio&gt;</div><div class="line">#include &lt;string&gt;</div><div class="line">#include &lt;cstring&gt;</div><div class="line">using namespace std;</div><div class="line">char st[][10]=&#123;&quot;dragon&quot;,&quot;ninja&quot;,&quot;iceman&quot;,&quot;lion&quot;,&quot;wolf&quot;&#125;;</div><div class="line">string wp[]=&#123;&quot;sword&quot;,&quot;bomb&quot;,&quot;arrow&quot;&#125;;</div><div class="line">class Weapon &#123;</div><div class="line">    private:</div><div class="line">        string s;</div><div class="line">    public:</div><div class="line">        Weapon(string t)&#123;</div><div class="line">            s=t;</div><div class="line">        &#125;</div><div class="line">        string getName()&#123;</div><div class="line">            return s;</div><div class="line">        &#125;</div><div class="line">&#125;;</div><div class="line">class Soldier&#123;</div><div class="line">    private:</div><div class="line">        int id;</div><div class="line">        int type;</div><div class="line">        double morale;</div><div class="line">        int wpon[10];</div><div class="line">        int loyalty;</div><div class="line">    public:</div><div class="line">        Soldier(int num,int b,int c,int d)&#123;</div><div class="line"></div><div class="line">            id=num;</div><div class="line">            type=b;</div><div class="line">            if (b==3) loyalty=c;</div><div class="line">            if (b==0) &#123;</div><div class="line">                wpon[0]=1;</div><div class="line">                wpon[1]=num%3;</div><div class="line">                morale=(double)c/d;</div><div class="line">            &#125;</div><div class="line">            if (b==1)&#123;</div><div class="line">                wpon[0]=2;</div><div class="line">                wpon[1]=num%3;</div><div class="line">                wpon[2]=(num+1)%3;</div><div class="line">            &#125;</div><div class="line">            if (b==2)&#123;</div><div class="line">                wpon[0]=1;</div><div class="line">                wpon[1]=num%3;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        double getMorale()&#123;</div><div class="line">            return morale;</div><div class="line">        &#125;</div><div class="line">        int getLoyalty()&#123;</div><div class="line">            return loyalty;</div><div class="line">        &#125;</div><div class="line">        int getWpon1()&#123;</div><div class="line">            return wpon[1];</div><div class="line">        &#125;</div><div class="line">        int getWpon2()&#123;</div><div class="line">            return wpon[2];</div><div class="line">        &#125;</div><div class="line">&#125;;</div><div class="line">char typeName[2][10]=&#123;&quot;red&quot;,&quot;blue&quot;&#125;;</div><div class="line">class Camp&#123;</div><div class="line">    private:</div><div class="line">        static int k[10];//soldiers&apos; life</div><div class="line">        int type;//red 0,blue 1;</div><div class="line">        int cnt[10];//count for soldier</div><div class="line">        int blood;</div><div class="line">        int num;//soldier id</div><div class="line">        int cnum;//creat num</div><div class="line">    public:</div><div class="line">        static void setK(int *p)&#123;</div><div class="line">            for (int i=0;i&lt;5;i++)</div><div class="line">                k[i]=p[i];</div><div class="line">        &#125;</div><div class="line">        Camp(int i,int b)&#123;//i:red or blue,b:blood</div><div class="line">            if (i==0) type=0;</div><div class="line">            else type=1;</div><div class="line">            memset(cnt,0,sizeof(cnt));</div><div class="line">            blood=b;</div><div class="line">            num=0;cnum=0;</div><div class="line">        &#125;</div><div class="line">        int getCamp()&#123;</div><div class="line">            return type;</div><div class="line">        &#125;</div><div class="line">        string getName()&#123;</div><div class="line">            if (type==0) return &quot;red&quot;;</div><div class="line">            else return &quot;blue&quot;;</div><div class="line">        &#125;</div><div class="line">        int getTypeNum(int n)&#123;</div><div class="line">            if (type==0)&#123;</div><div class="line">                switch (n%5)&#123;</div><div class="line">                    case 0:return 2;</div><div class="line">                    case 1:return 3;</div><div class="line">                    case 2:return 4;</div><div class="line">                    case 3:return 1;</div><div class="line">                    case 4:return 0;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            else &#123;</div><div class="line">                switch (n%5)&#123;</div><div class="line">                    case 0:return 3;</div><div class="line">                    case 1:return 0;</div><div class="line">                    case 2:return 1;</div><div class="line">                    case 3:return 2;</div><div class="line">                    case 4:return 4;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        int getNextSoldier()&#123;</div><div class="line">            int tmp=getTypeNum(cnum);</div><div class="line">            blood-=k[tmp];</div><div class="line">            int i;</div><div class="line">            if (blood&lt;0)&#123;</div><div class="line">                blood+=k[tmp];</div><div class="line">                for (i=1;i&lt;5;i++)&#123;</div><div class="line">                    tmp=getTypeNum(cnum+i);</div><div class="line">                    if (blood&gt;=k[tmp])&#123;</div><div class="line">                        cnum+=i;</div><div class="line">                        blood-=k[tmp];</div><div class="line">                        break;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            if (i==5) return 0;</div><div class="line">            Soldier t(num+1,tmp,blood,k[0]);</div><div class="line">            cnt[tmp]++;</div><div class="line">            printf(&quot;%s %s %d born with strength %d,%d %s in %s headquarter\n&quot;,typeName[type],st[tmp],num+1,k[tmp],cnt[tmp],st[tmp],typeName[type]);</div><div class="line">            if (tmp==0) printf(&quot;It has a %s,and it&apos;s morale is %.2lf\n&quot;,wp[t.getWpon1()].c_str(),t.getMorale());</div><div class="line">            if (tmp==1) printf(&quot;It has a %s and a %s\n&quot;,wp[t.getWpon1()].c_str(),wp[t.getWpon2()].c_str());</div><div class="line">            if (tmp==2) printf(&quot;It has a %s\n&quot;,wp[t.getWpon1()].c_str());</div><div class="line">            if (tmp==3) printf(&quot;It&apos;s loyalty is %d\n&quot;,t.getLoyalty());</div><div class="line">            num++;cnum++;</div><div class="line">            return 1;</div><div class="line">        &#125;</div><div class="line">&#125;;</div><div class="line">int Camp::k[10]=&#123;0&#125;;</div><div class="line">int main(int argc, char *argv[])</div><div class="line">&#123;</div><div class="line">    int T;</div><div class="line">    cin&gt;&gt;T;</div><div class="line">    for (int i=1;i&lt;=T;i++)&#123;</div><div class="line">        int ti=0;</div><div class="line">        cout&lt;&lt;&quot;Case:&quot;&lt;&lt;i&lt;&lt;endl;</div><div class="line">        int b;cin&gt;&gt;b;</div><div class="line">        Camp red(0,b),blue(1,b);</div><div class="line">        int p[10];</div><div class="line">        for (int i=0;i&lt;5;i++)</div><div class="line">            cin&gt;&gt;p[i];</div><div class="line">        Camp::setK(p);</div><div class="line">        int f1=0,f2=0;</div><div class="line">        while (1)&#123;</div><div class="line">            if (!f1)printf(&quot;%03d &quot;,ti);</div><div class="line">            if(!f1&amp;&amp;red.getNextSoldier()==0) &#123;cout&lt;&lt;&quot;red headquarter stops making warriors&quot;&lt;&lt;endl;f1=1;&#125;</div><div class="line">            if (!f2)printf(&quot;%03d &quot;,ti);</div><div class="line">            if(!f2&amp;&amp;blue.getNextSoldier()==0) &#123;cout&lt;&lt;&quot;blue headquarter stops making warriors&quot;&lt;&lt;endl;f2=1;&#125;</div><div class="line">            if (f1&amp;&amp;f2) break;</div><div class="line">            ti++;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2015/10/28/Coursera_程序设计与晋级_继承与派生_编程作业/">Coursera_程序设计与晋级_继承与派生_编程作业</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Bingo</a></p>
+        <p><span>发布时间:</span>2015-10-28, 20:51:48</p>
+        <p><span>最后更新:</span>2015-11-28, 16:44:06</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2015/10/28/Coursera_程序设计与晋级_继承与派生_编程作业/" title="Coursera_程序设计与晋级_继承与派生_编程作业">http://blog.acbingo.cn/2015/10/28/Coursera_程序设计与晋级_继承与派生_编程作业/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.acbingo.cn/2015/10/28/Coursera_程序设计与晋级_继承与派生_编程作业/　　作者: Bingo" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2015/10/31/coursera学习笔记_多态和虚函数/">
+                    coursera学习笔记_多态和虚函数
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2015/10/22/科大OJ-数据结构-DNA序列/">
+                    科大OJ-数据结构-DNA序列
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#编程题＃1"><span class="toc-number">1.</span> <span class="toc-text">编程题＃1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#代码"><span class="toc-number">1.1.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#编程题＃2：-魔兽世界之二：装备"><span class="toc-number">2.</span> <span class="toc-text">编程题＃2： 魔兽世界之二：装备</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#代码-1"><span class="toc-number">2.1.</span> <span class="toc-text">代码</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Coursera_程序设计与晋级_继承与派生_编程作业　| Bingo's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2015/10/31/coursera学习笔记_多态和虚函数/" title="上一篇: coursera学习笔记_多态和虚函数">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2015/10/22/科大OJ-数据结构-DNA序列/" title="下一篇: 科大OJ-数据结构-DNA序列">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/一步一步学习红黑树-2/">一步一步学习红黑树-2</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/04/一步一步学习红黑树/">一步一步学习红黑树-1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/回文解码/">回文解码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/C++中虚析构函数的作用/">C++中虚析构函数的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/const/">const</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/const与常成员函数/">const与常成员函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/31/虚拟继承/">虚拟继承</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/31/函数指针/">函数指针</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/记事本/">记事本</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/StarFiles/">StarFiles</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/酒店管理系统/">酒店管理系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/飞机大战/">飞机大战</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/仿函数/">仿函数/函数对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/二叉树中和为某一值的路径/">二叉树中和为某一值的路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/递归实现反转列表/">递归实现反转链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/快速幂/">快速幂</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/bitset的用法/">bitset的用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/二分查找、归并排序和快速排序/">二分查找、归并排序和快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/25/重建二叉树/">重建二叉树</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/25/leetcode_5/">LeetCode_5:Longest Palindromic Substring</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_4/">LeetCode_4:Median of Two Sorted Arrays</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_3/">LeetCode_3:Longest Substring Without Repeating Characters</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_2/">LeetCode_2:Add Two Numbers</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_1_Two Sum/">LeetCode_1:Two Sum</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/07/Bingo's_ShadowSocks使用说明/">Bingo's_Shadowsocks</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/如何优雅的开启wifi热点/">如何优雅的开启wifi热点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/如何优雅的连接指定wifi热点/">如何优雅的连接指定wifi热点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/对AndroidWifi状态广播的研究/">对AndroidWifi状态广播的研究</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/coursera数据结构_字符串_课后作业/">coursera数据结构_字符串_课后作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/简单几步在Android_Studio上实现二维码的扫描/">简单几步在Android_Studio上实现二维码的生成与扫描</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/coursera_算法课后习题/">coursera_算法课后习题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/coursera_计算机组成学习笔记/">coursera_计算机组成学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/20/cocos2dx-飞机大战/">cocos2dx-飞机大战</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/14/android_ping不通电脑/">android_ping不通电脑</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/14/android创建与连接热点/">android创建与连接热点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/01/coursera_算法_递归/">coursera_算法_递归</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/30/coursera_操作系统学习笔记/">coursera_操作系统学习笔记_计算机操作系统概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/29/编译原理_中科大公开课_第一单元编译器介绍作业/">编译原理_中科大公开课_第一单元编译器介绍作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/25/关于Inflater与findViewById()的思考/">关于Inflater与findViewById()的思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/11/coursera_魔兽世界终结版/">coursera_魔兽世界终结版</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/05/coursera_算法作业_枚举/">coursera_算法作业_枚举</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/27/coursera_c++高级主体和c++11新特性/">coursera_c++高级主体和c++11新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/27/coursera_c++期末考试/">coursera_c++期末考试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/24/coursera_STL2作业/">coursera_STL2作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/21/coursera容器适配器/">coursera容器适配器_算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/21/coursera标准模版库STL2/">coursera标准模版库STL2</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/20/coursera编程作业-STL1/">coursera编程作业-STL1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/20/coursera疑问/">coursera疑问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/19/coursera学习笔记-函数对象/">coursera学习笔记-函数对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/19/coursera学习笔记-顺序容器Vector/">coursera学习笔记-顺序容器Vector、List和Deque</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/05/算法学习笔记-14-最长公共子序列/">算法学习笔记-14-最长公共子序列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/03/算法学习笔记-13-矩阵连乘问题/">算法学习笔记-13-矩阵连乘问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/01/算法学习笔记-12-循环赛日程表/">算法学习笔记-12-循环赛日程表</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/01/算法学习笔记-11-最接近点对问题/">算法学习笔记-11-最接近点对问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/01/算法学习笔记-10-线性时间选择/">算法学习笔记-10-线性时间选择</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/27/算法学习笔记-9-快速排序/">算法学习笔记-9-快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/26/算法学习笔记-8-合并排序/">算法学习笔记-8-归并排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/24/算法学习笔记-7-棋盘覆盖问题/">算法学习笔记-7-棋盘覆盖问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/22/算法学习笔记-6-Strassen矩阵乘法/">算法学习笔记-6-Strassen矩阵乘法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/21/算法学习笔记-5-Hanoi塔问题/">算法学习笔记-5-Hanoi塔问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/20/算法学习笔记-4-整数划分问题/">算法学习笔记-4-整数划分问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/19/算法学习笔记-3-排列问题/">算法学习笔记-3-排列问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/18/算法学习笔记-2-递归的概念/">算法学习笔记-2-递归的概念</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/17/coursera_标准模板库STL/">coursera_标准模板库STL</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/17/算法学习笔记-0-序/">算法学习笔记-0-序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/17/算法学习笔记-1-NP完全性理论/">算法学习笔记-1-NP完全性理论</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/14/文件操作和模板_编程作业/">文件操作和模板_编程作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/11/ubuntu下安装最新的nodejs(v4.2.2)/">ubuntu下安装最新的nodejs(v4.2.2)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/11/ubuntu14.04的环境变量/">ubuntu14.04的环境变量</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/01/coursera学习笔记_文件操作和模板/">coursera学习笔记_文件操作和模板</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/31/coursera学习笔记_多态和虚函数/">coursera学习笔记_多态和虚函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/28/Coursera_程序设计与晋级_继承与派生_编程作业/">Coursera_程序设计与晋级_继承与派生_编程作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/22/科大OJ-数据结构-DNA序列/">科大OJ-数据结构-DNA序列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/20/科大OJ-数据结构-求表达式串的后缀表达式和值/">科大OJ-数据结构-求表达式串的后缀表达式和值</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/01/科大OJ-数据结构-击鼓传花/">科大OJ-数据结构-击鼓传花</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/30/科大OJ-数据结构-求集合的交并补集/">科大OJ-数据结构-求集合的交并补集</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/27/hexo无法本地访问/">hexo无法本地访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/26/继承与派生/">coursera学习笔记_继承与派生</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/26/大数类模板/">大数类模板</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/15/vimium学习笔记/">vimium学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/04/程序员矩阵/">程序员矩阵</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/03/coursera学习笔记_运算符重载/">coursera学习笔记_运算符重载</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/01/写hexo博客、markdown文章时图床的挑选/">写hexo博客、markdown文章时图床的挑选</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/31/coursera学习笔记-c++程序设计/">coursera学习笔记-c++程序设计</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/29/Linux下C语言应用编程学习笔记/">Linux下C语言应用编程学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/28/linux学习笔记2/">linux学习笔记2</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/27/Bingo's exVim/">Bingo的VIM</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/27/linux下去掉^M的方法/">linux下去掉^M的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/27/vim的持久撤销功能/">vim的持久撤销功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/25/linux学习笔记/">linux学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/线段树学习笔记-7-hdu1698/">线段树学习笔记-7-hdu1698</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/线段树学习笔记-6-区间更新/">线段树学习笔记-6-区间更新</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/Coursera_程序设计与算法_C程序设计进阶/">Coursera_程序设计与算法_C程序设计进阶</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/线段树学习笔记-5-hdu2795/">线段树学习笔记-5-hdu2795</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/14/线段树学习笔记-4-hdu1394/">线段树学习笔记-4-hdu1394</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/14/求逆序对的个数/">求逆序对的个数</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/14/线段树学习笔记-3-hdu1754/">线段树学习笔记-3-hdu1754</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/13/线段树学习笔记-2-hdu1166/">线段树学习笔记-2-hdu1166</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/13/线段树学习笔记/">线段树学习笔记-1-入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/11/Coursera_程序设计与算法_计算导论与C语言基础_期末编程测试/">Coursera_程序设计与算法_计算导论与C语言基础_期末编程测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/Coursera_程序设计与算法_C程序设计进阶_C程序中的函数/">Coursera_程序设计与算法_计算导论与C语言基础_数组应用练习</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/Coursera_程序设计与算法_计算导论与C语言基础_数组应用练习/">Coursera_程序设计与算法_计算导论与C语言基础_数组应用练习</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/hdu4821 String/">hdu4821 String</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/09/Rolling Hash(Rabin-Karp算法)匹配字符串/">Rolling Hash(Rabin-Karp算法)匹配字符串</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/09/设置vim的默认工作路径/">设置vim的默认工作路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/滑动窗口的单调队列/">滑动窗口的单调队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/ssh -T git@github.com出现Permission denied (publickey)/">ssh -T git@github.com出现Permission denied (publickey)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/29/UVa10791-Minimum-Sum-LCM/">UVa10791-Minimum Sum LCM</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/29/uva100/">uva100</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016 Bingo
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

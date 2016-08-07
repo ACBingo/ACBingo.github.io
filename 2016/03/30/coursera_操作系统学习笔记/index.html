@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Bingo" />
+
+
+
+<meta name="description" content="并发和并行并发和并行从宏观上来讲都是同时处理多路请求的概念。但并发和并行又有区别，并行是指两个或者多个事件在同一时刻发生；而并发是指两个或多个事件在同一时间间隔内发生。
+在操作系统中，并发是指一个时间段中有几个程序都处于已启动运行到运行完毕之间，且这几个程序都是在同一个处理机上运行，但任一个时刻点上只有一个程序在处理机上运行。
+
+程序与计算不再一一对应，一个程序副本可以有多个计算
+并发程序之间有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="coursera_操作系统学习笔记_计算机操作系统概述">
+<meta property="og:url" content="http://blog.acbingo.cn/2016/03/30/coursera_操作系统学习笔记/index.html">
+<meta property="og:site_name" content="Bingo's Blog">
+<meta property="og:description" content="并发和并行并发和并行从宏观上来讲都是同时处理多路请求的概念。但并发和并行又有区别，并行是指两个或者多个事件在同一时刻发生；而并发是指两个或多个事件在同一时间间隔内发生。
+在操作系统中，并发是指一个时间段中有几个程序都处于已启动运行到运行完毕之间，且这几个程序都是在同一个处理机上运行，但任一个时刻点上只有一个程序在处理机上运行。
+
+程序与计算不再一一对应，一个程序副本可以有多个计算
+并发程序之间有">
+<meta property="og:updated_time" content="2016-03-30T07:04:24.283Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="coursera_操作系统学习笔记_计算机操作系统概述">
+<meta name="twitter:description" content="并发和并行并发和并行从宏观上来讲都是同时处理多路请求的概念。但并发和并行又有区别，并行是指两个或者多个事件在同一时刻发生；而并发是指两个或多个事件在同一时间间隔内发生。
+在操作系统中，并发是指一个时间段中有几个程序都处于已启动运行到运行完毕之间，且这几个程序都是在同一个处理机上运行，但任一个时刻点上只有一个程序在处理机上运行。
+
+程序与计算不再一一对应，一个程序副本可以有多个计算
+并发程序之间有">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Bingo&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>coursera_操作系统学习笔记_计算机操作系统概述 | Bingo&#39;s Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Bingo</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">Here&#39;s My Second Brains</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:123@123.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Array/">Array</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hash-Table/">Hash Table</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LeetCode/">LeetCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linked-List/">Linked List</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/">Math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/">STL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anroid/">anroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/books/">books</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c#</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocos/">cocos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocos2dx/">cocos2dx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/const/">const</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coursera/">coursera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hash/">hash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hdu/">hdu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/offer/">offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/other/">other</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/poj/">poj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string/">string</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/uva/">uva</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二分/">二分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二叉树/">二叉树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/位运算/">位运算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其它/">其它</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分治/">分治</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态规划/">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单调队列/">单调队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/回溯/">回溯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串/">字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/指针/">指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/枚举/">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树/">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/红黑树/">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线段树/">线段树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/继承/">继承</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译原理/">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚函数/">虚函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆序对/">逆序对</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/递归/">递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/链表/">链表</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于前端</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Bingo</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Bingo</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Here&#39;s My Second Brains</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:123@123.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-coursera_操作系统学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/30/coursera_操作系统学习笔记/" class="article-date">
+      <time datetime="2016-03-30T06:48:35.000Z" itemprop="datePublished">2016-03-30</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      coursera_操作系统学习笔记_计算机操作系统概述
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/coursera/">coursera</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/操作系统/">操作系统</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <a id="more"></a>
+<h1 id="并发和并行"><a href="#并发和并行" class="headerlink" title="并发和并行"></a>并发和并行</h1><p>并发和并行从宏观上来讲都是同时处理多路请求的概念。但并发和并行又有区别，并行是指两个或者多个事件在同一时刻发生；而并发是指两个或多个事件在同一时间间隔内发生。</p>
+<p>在操作系统中，并发是指一个时间段中有几个程序都处于已启动运行到运行完毕之间，且这几个程序都是在同一个处理机上运行，但任一个时刻点上只有一个程序在处理机上运行。</p>
+<ol>
+<li>程序与计算不再一一对应，一个程序副本可以有多个计算</li>
+<li>并发程序之间有相互制约关系，直接制约体现为一个程序需要另一个程序的计算结果，间接制约体现为多个程序竞争某一资源，如处理机、缓冲区等。</li>
+<li>并发程序在执行中是走走停停，断续推进的。</li>
+</ol>
+<p>在网络服务器上，并发是指同一时刻能处理的连接数，比如，服务器能建立1000个TCP连接，即服务器同时维护了1000个socket，这个服务器的并发量就是1000，但是服务器可能只有单核或者8核，16核等，总之对这1000个socket连接的处理也是分时来做的。每个socket服务器处理的时间如果是1s，那么该服务器1s内可以处理完1000个请求，如果每个socket处理100ms的话，那么该服务器1s内可以处理10000个请求。</p>
+<p>在这里我们先抛出一些概念，如果这些概念都弄清楚了，并发和并行基本就清楚了。</p>
+<p>会话：在我们用电脑工作时，打开的一个窗口或一个Web页面，我们可以把它叫做一个“会话”，扩展到web服务器上，要维护很多个用户的web页面访问，我们可以认为服务器管理了多个“会话”。</p>
+<p>并发连接数：网站有时候报错：“HTTP Error 503. The service is unavailable”。但刷一两下又正常，估计很可能是超过网站的最大并发连接数了。并发连接指网络流量管理设备或代理服务器对其业务信息流的处理能力，是能够同时处理的点对点连接的最大数目，它反映出设备对多个连接的访问控制能力和连接状态跟踪能力，这个参数的大小直接影响到设备所能支持的最大信息点数。</p>
+<p>并发可以理解为服务器最多维护多少个会话数，并行则不一样，它关系的是有多少个会话是在同时进行，假如有两台服务器（进程），可能并行的数量是2，而并发的数量是1000。我们还可以对比下吞吐量和带宽的概念。</p>
+<p>吞吐量与带宽的区分：吞吐量和带宽是很容易搞混的一个词，两者的单位都是Mbps。先来看两者对应的英语，吞吐量：throughput；带宽：Max net bitrate。当讨论通信链路的带宽时，一般是指链路上每秒所能传送的比特数，它取决于链路时钟速率和信道编码在计算机网络中又称为线速。可以说以太网的带宽是10Mbps。但是需要区分链路上的可用带宽（带宽）与实际链路中每秒所能传送的比特数（吞吐量）。通常更倾向于用“吞吐量”一词来表示一个系统的测试性能。这样，因为实现受各种低效率因素的影响，所以由一段带宽为10Mbps的链路连接的一对节点可能只达到2Mbps的吞吐量。这样就意味着，一个主机上的应用能够以2Mbps的速度向另外的一个主机发送数据。</p>
+<p>带宽可以理解成是并行，即同时可以有10M 个bit（0，1）在线路中传输。而吞吐量类似并发，指主机每秒可以处理2M个bit。比喻有些不是很恰当，但仔细体会下，有些类似之处。</p>
+<h1 id="管态和目态"><a href="#管态和目态" class="headerlink" title="管态和目态"></a>管态和目态</h1><p>目态：<br>目态又称为用户态，是用户程序执行时机器所处的状态。在此状态下禁止使用特权指令，不能直接取用系统资源与改变机器状态，并且只允许用户程序访问自己的存储区域。<br>管态：<br>管态又称系统态，核心态或特权状态。<br>CPU有两个状态，分别是管态和目态，当CPU处理系统程序的时候，CPU会转为管态，CPU在管态下可以执行指令系统的全集。（包括特权指令与非特权指令）<br>自：百度百科</p>
+<p>CPU状态分为管态和目态，管态又称为特权态，系统态或核心态。CPU在管态下可以执行指令系统的全集。通常，操作系统在管态下运行。<br>  目态又称为常态或用户态。机器处于目态时，程序只能执行非特权指令。用户程序只能在目态下运行，如果用户程序在目态下执行特权指令，硬件将发生中断，由操作系统获得控制，特权指令执行被禁止，这样可以防止用户程序有意或无意地破坏系统。<br>  从目态转换为管态的唯一途径是中断;从管态到目态可以通过修改程序状态字来实现，这将伴随这由操作系统程序到用户程序的转换。<br>  硬件资源不可由用户程序在目态下直接驱动，I/O指令是特权指令，只能由系统程序在管态进行控制。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/03/30/coursera_操作系统学习笔记/">coursera_操作系统学习笔记_计算机操作系统概述</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Bingo</a></p>
+        <p><span>发布时间:</span>2016-03-30, 14:48:35</p>
+        <p><span>最后更新:</span>2016-03-30, 15:04:24</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/03/30/coursera_操作系统学习笔记/" title="coursera_操作系统学习笔记_计算机操作系统概述">http://blog.acbingo.cn/2016/03/30/coursera_操作系统学习笔记/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.acbingo.cn/2016/03/30/coursera_操作系统学习笔记/　　作者: Bingo" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/04/01/coursera_算法_递归/">
+                    coursera_算法_递归
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/03/29/编译原理_中科大公开课_第一单元编译器介绍作业/">
+                    编译原理_中科大公开课_第一单元编译器介绍作业
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#并发和并行"><span class="toc-number">1.</span> <span class="toc-text">并发和并行</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#管态和目态"><span class="toc-number">2.</span> <span class="toc-text">管态和目态</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"coursera_操作系统学习笔记_计算机操作系统概述　| Bingo's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/04/01/coursera_算法_递归/" title="上一篇: coursera_算法_递归">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/03/29/编译原理_中科大公开课_第一单元编译器介绍作业/" title="下一篇: 编译原理_中科大公开课_第一单元编译器介绍作业">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/一步一步学习红黑树-2/">一步一步学习红黑树-2</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/04/一步一步学习红黑树/">一步一步学习红黑树-1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/回文解码/">回文解码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/C++中虚析构函数的作用/">C++中虚析构函数的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/const/">const</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/const与常成员函数/">const与常成员函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/31/虚拟继承/">虚拟继承</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/31/函数指针/">函数指针</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/记事本/">记事本</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/StarFiles/">StarFiles</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/酒店管理系统/">酒店管理系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/飞机大战/">飞机大战</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/仿函数/">仿函数/函数对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/二叉树中和为某一值的路径/">二叉树中和为某一值的路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/递归实现反转列表/">递归实现反转链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/快速幂/">快速幂</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/bitset的用法/">bitset的用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/二分查找、归并排序和快速排序/">二分查找、归并排序和快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/25/重建二叉树/">重建二叉树</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/25/leetcode_5/">LeetCode_5:Longest Palindromic Substring</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_4/">LeetCode_4:Median of Two Sorted Arrays</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_3/">LeetCode_3:Longest Substring Without Repeating Characters</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_2/">LeetCode_2:Add Two Numbers</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_1_Two Sum/">LeetCode_1:Two Sum</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/07/Bingo's_ShadowSocks使用说明/">Bingo's_Shadowsocks</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/如何优雅的开启wifi热点/">如何优雅的开启wifi热点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/如何优雅的连接指定wifi热点/">如何优雅的连接指定wifi热点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/对AndroidWifi状态广播的研究/">对AndroidWifi状态广播的研究</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/coursera数据结构_字符串_课后作业/">coursera数据结构_字符串_课后作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/简单几步在Android_Studio上实现二维码的扫描/">简单几步在Android_Studio上实现二维码的生成与扫描</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/coursera_算法课后习题/">coursera_算法课后习题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/coursera_计算机组成学习笔记/">coursera_计算机组成学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/20/cocos2dx-飞机大战/">cocos2dx-飞机大战</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/14/android_ping不通电脑/">android_ping不通电脑</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/14/android创建与连接热点/">android创建与连接热点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/01/coursera_算法_递归/">coursera_算法_递归</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/30/coursera_操作系统学习笔记/">coursera_操作系统学习笔记_计算机操作系统概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/29/编译原理_中科大公开课_第一单元编译器介绍作业/">编译原理_中科大公开课_第一单元编译器介绍作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/25/关于Inflater与findViewById()的思考/">关于Inflater与findViewById()的思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/11/coursera_魔兽世界终结版/">coursera_魔兽世界终结版</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/05/coursera_算法作业_枚举/">coursera_算法作业_枚举</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/27/coursera_c++高级主体和c++11新特性/">coursera_c++高级主体和c++11新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/27/coursera_c++期末考试/">coursera_c++期末考试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/24/coursera_STL2作业/">coursera_STL2作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/21/coursera容器适配器/">coursera容器适配器_算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/21/coursera标准模版库STL2/">coursera标准模版库STL2</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/20/coursera编程作业-STL1/">coursera编程作业-STL1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/20/coursera疑问/">coursera疑问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/19/coursera学习笔记-函数对象/">coursera学习笔记-函数对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/19/coursera学习笔记-顺序容器Vector/">coursera学习笔记-顺序容器Vector、List和Deque</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/05/算法学习笔记-14-最长公共子序列/">算法学习笔记-14-最长公共子序列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/03/算法学习笔记-13-矩阵连乘问题/">算法学习笔记-13-矩阵连乘问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/01/算法学习笔记-12-循环赛日程表/">算法学习笔记-12-循环赛日程表</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/01/算法学习笔记-11-最接近点对问题/">算法学习笔记-11-最接近点对问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/01/算法学习笔记-10-线性时间选择/">算法学习笔记-10-线性时间选择</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/27/算法学习笔记-9-快速排序/">算法学习笔记-9-快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/26/算法学习笔记-8-合并排序/">算法学习笔记-8-归并排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/24/算法学习笔记-7-棋盘覆盖问题/">算法学习笔记-7-棋盘覆盖问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/22/算法学习笔记-6-Strassen矩阵乘法/">算法学习笔记-6-Strassen矩阵乘法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/21/算法学习笔记-5-Hanoi塔问题/">算法学习笔记-5-Hanoi塔问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/20/算法学习笔记-4-整数划分问题/">算法学习笔记-4-整数划分问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/19/算法学习笔记-3-排列问题/">算法学习笔记-3-排列问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/18/算法学习笔记-2-递归的概念/">算法学习笔记-2-递归的概念</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/17/coursera_标准模板库STL/">coursera_标准模板库STL</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/17/算法学习笔记-0-序/">算法学习笔记-0-序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/17/算法学习笔记-1-NP完全性理论/">算法学习笔记-1-NP完全性理论</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/14/文件操作和模板_编程作业/">文件操作和模板_编程作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/11/ubuntu下安装最新的nodejs(v4.2.2)/">ubuntu下安装最新的nodejs(v4.2.2)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/11/ubuntu14.04的环境变量/">ubuntu14.04的环境变量</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/01/coursera学习笔记_文件操作和模板/">coursera学习笔记_文件操作和模板</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/31/coursera学习笔记_多态和虚函数/">coursera学习笔记_多态和虚函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/28/Coursera_程序设计与晋级_继承与派生_编程作业/">Coursera_程序设计与晋级_继承与派生_编程作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/22/科大OJ-数据结构-DNA序列/">科大OJ-数据结构-DNA序列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/20/科大OJ-数据结构-求表达式串的后缀表达式和值/">科大OJ-数据结构-求表达式串的后缀表达式和值</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/01/科大OJ-数据结构-击鼓传花/">科大OJ-数据结构-击鼓传花</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/30/科大OJ-数据结构-求集合的交并补集/">科大OJ-数据结构-求集合的交并补集</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/27/hexo无法本地访问/">hexo无法本地访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/26/继承与派生/">coursera学习笔记_继承与派生</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/26/大数类模板/">大数类模板</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/15/vimium学习笔记/">vimium学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/04/程序员矩阵/">程序员矩阵</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/03/coursera学习笔记_运算符重载/">coursera学习笔记_运算符重载</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/01/写hexo博客、markdown文章时图床的挑选/">写hexo博客、markdown文章时图床的挑选</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/31/coursera学习笔记-c++程序设计/">coursera学习笔记-c++程序设计</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/29/Linux下C语言应用编程学习笔记/">Linux下C语言应用编程学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/28/linux学习笔记2/">linux学习笔记2</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/27/Bingo's exVim/">Bingo的VIM</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/27/linux下去掉^M的方法/">linux下去掉^M的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/27/vim的持久撤销功能/">vim的持久撤销功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/25/linux学习笔记/">linux学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/线段树学习笔记-7-hdu1698/">线段树学习笔记-7-hdu1698</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/线段树学习笔记-6-区间更新/">线段树学习笔记-6-区间更新</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/Coursera_程序设计与算法_C程序设计进阶/">Coursera_程序设计与算法_C程序设计进阶</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/线段树学习笔记-5-hdu2795/">线段树学习笔记-5-hdu2795</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/14/线段树学习笔记-4-hdu1394/">线段树学习笔记-4-hdu1394</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/14/求逆序对的个数/">求逆序对的个数</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/14/线段树学习笔记-3-hdu1754/">线段树学习笔记-3-hdu1754</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/13/线段树学习笔记-2-hdu1166/">线段树学习笔记-2-hdu1166</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/13/线段树学习笔记/">线段树学习笔记-1-入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/11/Coursera_程序设计与算法_计算导论与C语言基础_期末编程测试/">Coursera_程序设计与算法_计算导论与C语言基础_期末编程测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/Coursera_程序设计与算法_C程序设计进阶_C程序中的函数/">Coursera_程序设计与算法_计算导论与C语言基础_数组应用练习</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/Coursera_程序设计与算法_计算导论与C语言基础_数组应用练习/">Coursera_程序设计与算法_计算导论与C语言基础_数组应用练习</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/hdu4821 String/">hdu4821 String</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/09/Rolling Hash(Rabin-Karp算法)匹配字符串/">Rolling Hash(Rabin-Karp算法)匹配字符串</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/09/设置vim的默认工作路径/">设置vim的默认工作路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/滑动窗口的单调队列/">滑动窗口的单调队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/ssh -T git@github.com出现Permission denied (publickey)/">ssh -T git@github.com出现Permission denied (publickey)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/29/UVa10791-Minimum-Sum-LCM/">UVa10791-Minimum Sum LCM</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/29/uva100/">uva100</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016 Bingo
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

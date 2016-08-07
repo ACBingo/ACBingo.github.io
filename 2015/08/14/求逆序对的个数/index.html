@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Bingo" />
+
+
+
+<meta name="description" content="几种不同的算法求逆序对的个数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="求逆序对的个数">
+<meta property="og:url" content="http://blog.acbingo.cn/2015/08/14/求逆序对的个数/index.html">
+<meta property="og:site_name" content="Bingo's Blog">
+<meta property="og:description" content="几种不同的算法求逆序对的个数">
+<meta property="og:updated_time" content="2015-08-19T13:00:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="求逆序对的个数">
+<meta name="twitter:description" content="几种不同的算法求逆序对的个数">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Bingo&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>求逆序对的个数 | Bingo&#39;s Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Bingo</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">Here&#39;s My Second Brains</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:123@123.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Array/">Array</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hash-Table/">Hash Table</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LeetCode/">LeetCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linked-List/">Linked List</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/">Math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/">STL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anroid/">anroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/books/">books</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c#</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocos/">cocos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocos2dx/">cocos2dx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/const/">const</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coursera/">coursera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hash/">hash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hdu/">hdu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/offer/">offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/other/">other</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/poj/">poj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string/">string</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/uva/">uva</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二分/">二分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二叉树/">二叉树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/位运算/">位运算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其它/">其它</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分治/">分治</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态规划/">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单调队列/">单调队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/回溯/">回溯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串/">字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/指针/">指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/枚举/">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树/">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/红黑树/">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线段树/">线段树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/继承/">继承</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译原理/">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚函数/">虚函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆序对/">逆序对</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/递归/">递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/链表/">链表</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于前端</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Bingo</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Bingo</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Here&#39;s My Second Brains</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:123@123.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-求逆序对的个数" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/14/求逆序对的个数/" class="article-date">
+      <time datetime="2015-08-14T12:22:19.000Z" itemprop="datePublished">2015-08-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      求逆序对的个数
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/逆序对/">逆序对</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>本文部分内容参考自<a href="http://www.ahathinking.com" target="_blank" rel="external">勇幸|Thinking</a>,感谢原作者</p>
+<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p><a href="http://baike.baidu.com/view/184395.htm" target="_blank" rel="external">逆序对</a><br>设A[1…n]是一个包含n个不同数的数组。如果在i<j的情况下，有a[i]>A[j]，则（i，j）就称为A中的一个逆序对（inversion）【《算法导论》2-4】</j的情况下，有a[i]></p>
+<h1 id="解法一，暴力"><a href="#解法一，暴力" class="headerlink" title="解法一，暴力"></a>解法一，暴力</h1><p>暴力方法最直接，也最容易想到，两层for循环就可以算出来逆序数：每遇到一个元素回头遍历寻找比其大的元素个数即可，当然向后寻找比其小的元素个数也可以，复杂度为O(n^2)，代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">int sum = 0;</div><div class="line">for(int i = 0; i &lt; size; ++i)</div><div class="line">&#123;</div><div class="line">    for(int j = i+1; j &lt; size; ++j)</div><div class="line">    &#123;</div><div class="line">        if(arr[i] &gt; arr[j])</div><div class="line">        &#123;</div><div class="line">            ++sum;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">return sum;</div></pre></td></tr></table></figure></p>
+<h1 id="解法二，归并排序"><a href="#解法二，归并排序" class="headerlink" title="解法二，归并排序"></a>解法二，归并排序</h1><blockquote>
+<p>《算法导论》2-4关于逆序对的几点讨论：<br>1) 如果数组的元素取自集合[1,2,…,n]，那么，怎样的数组含有最多的逆序对？它包含多少个逆序对？<br>很容易想到，当一个数列为逆序时，即[n,n-1,n-2,…,1]，逆序数是最多的，是多少？当n=1，inversion=0；n=2，inversion在原来基础上增加1；n=3，inversion增加2…n=n时，inversion增加n-1，所以总的inversion为等差求和n(n-1)/2；也可以这样理解，数列[n,n-1,n-2,…,1]中任取两个数皆为逆序对，故逆序数为C(n,2)，即n(n-1)/2。<br>2) 插入排序的运行时间与输入数组中逆序对的数量之间有怎样的关系？<br>我们知道插入排序的程序如下</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">for(int i = 1; i &lt; n; ++i)</div><div class="line">&#123;</div><div class="line">    int key = arr[i];</div><div class="line">    for(int j = i; j &gt; 0 &amp;&amp; arr[j-1] &gt; key; --j)</div><div class="line">    &#123;</div><div class="line">        arr[j] = arr[j-1];</div><div class="line">    &#125;</div><div class="line">    arr[j] = key;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>可以看出，每次内层循环都尝试将当前元素放在“合适”的位置上，所以对于内层循环的每一次迭代，都是在消除当前元素相对之前元素所对应的一系列逆序对，故总的循环便是消除数列所有的逆序对；<br>3) 给出一个算法，它能用O(nlgn)的最坏运行时间，确定n个元素的任何排列中逆序对的数目。（提示：修改合并排序）</p>
+</blockquote>
+<p>《算法导论》在这里直接提示修改合并排序，所以自然就是用到分治归并的思想，那么逆序对是出现在什么时候？出现多少呢？<br>我们知道归并排序是通过分治，然后归并两个有序的序列成一个有序序列。现假设两段有序序列分别是[beg,mid]和[mid+1,end]，在归并过程中（i,j分别为两段序列的下标），如果a[i]<a[j]，则不会产生逆序对；但当a[i]>a[j]时，就出现逆序对了，出现了多少？既然[beg,mid]是有序的，那么[i-mid]序列就都能与a[j]构成逆序对，故：mid-i+1<br>复杂度O(nlgn)，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line">using namespace std;</div><div class="line"> </div><div class="line">/* 归并求逆序对数, arr 存储最终有序结果</div><div class="line"> * 在函数外申请一个临时数组作为参数传入</div><div class="line"> * 避免递归不断创建临时数组的开销</div><div class="line"> */</div><div class="line">int Merge(int * arr, int beg, int mid, int end, int * tmp_arr)</div><div class="line">&#123;</div><div class="line">    memcpy(tmp_arr+beg,arr+beg,sizeof(int)*(end-beg+1));</div><div class="line">    int i = beg;</div><div class="line">    int j = mid + 1;</div><div class="line">    int k = beg;</div><div class="line">    int inversion = 0;  // 合并过程中的逆序数</div><div class="line">    while(i &lt;= mid &amp;&amp; j &lt;= end)</div><div class="line">    &#123;</div><div class="line">        if(tmp_arr[i] &lt;= tmp_arr[j])</div><div class="line">        &#123;</div><div class="line">            arr[k++] = tmp_arr[i++];</div><div class="line">        &#125;else</div><div class="line">        &#123;</div><div class="line">            arr[k++] = tmp_arr[j++];</div><div class="line">            inversion += (mid - i + 1);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    while(i &lt;= mid)</div><div class="line">    &#123;</div><div class="line">        arr[k++] = tmp_arr[i++];</div><div class="line">    &#125;</div><div class="line">    while(j &lt;= end)</div><div class="line">    &#123;</div><div class="line">        arr[k++] = tmp_arr[j++];</div><div class="line">    &#125;</div><div class="line">    return inversion;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">int MergeInversion(int * arr, int beg, int end, int * tmp_arr)</div><div class="line">&#123;</div><div class="line">    int inversions = 0;    // 记录倒序数</div><div class="line">    if(beg &lt; end)</div><div class="line">    &#123;</div><div class="line">        int mid = (beg + end) &gt;&gt; 1;</div><div class="line">        inversions += MergeInversion(arr, beg, mid, tmp_arr);</div><div class="line">        inversions += MergeInversion(arr, mid+1, end, tmp_arr);</div><div class="line">        inversions += Merge(arr, beg, mid, end, tmp_arr);</div><div class="line">    &#125;</div><div class="line">    return inversions;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">/* 测试序列 ：answer: 10 */</div><div class="line">int testPoint[10] = &#123;</div><div class="line">    1, 4, 2, 9, 48,</div><div class="line">   15, 13, 44, 6, 90</div><div class="line">&#125;;</div><div class="line"> </div><div class="line">void main()</div><div class="line">&#123;</div><div class="line">    int arrcopy[10];      // 临时数组</div><div class="line">    memcpy(arrcopy,testPoint,sizeof testPoint);</div><div class="line">    printf(&quot;the num of inversions is: %d\n&quot;,</div><div class="line">            MergeInversion(testPoint,0,9,arrcopy));</div><div class="line">&#125;</div></pre></td></tr></table></figure></a[j]，则不会产生逆序对；但当a[i]></p>
+<h1 id="解法三，线段树"><a href="#解法三，线段树" class="headerlink" title="解法三，线段树"></a>解法三，线段树</h1><p><strong>线段树的时间复杂度为O(N^2),和归并排序不同的是线段树可以快速的动态更新呀</strong><br>一般来讲，在解决数列的区间问题上，线段树有很高的出镜率。逆序数便是一个“区间和”的问题：对于数列中的每个元素，它对应的逆序数便是之前序列中大于该元素的元素个数和。<br>有了这样的分析，便可以用线段树来解决了：对于数列中每一个元素x，它必将对应这线段树中的一条长logn的路径，该路径中的每条线段都包含x，故每遍历到一个元素则将包含该元素的路径中的每条线段次数都加1，而查询该元素所对应的逆序数便是查询线段树中[x,up]的区间和，其中up为该序列的上界。<br>举个例子：序列：5，4，3，2，1的逆序数，设up为10<br>i=0，arr[i]=5，查询区间[5,10]的元素个数，此时线段树空，故inversion=0；将5插入包含它的线段路径。<br>i=1，arr[i]=4，查询区间[4,10]的元素个数，为1，故inversion+=1；将4插入包含它的线段路径。<br>i=2，arr[i]=3，查询区间[3,10]的元素个数，为2，故inversion+=0；将3插入包含它的线段路径。<br>以此类推。。。代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line">using namespace std;</div><div class="line"> </div><div class="line">/* 线段树求逆序数 */</div><div class="line">#define BORDER 100  // 设测试数列最大不超过100</div><div class="line"> </div><div class="line">struct Node         // 线段树</div><div class="line">&#123;</div><div class="line">    int left;</div><div class="line">    int right;</div><div class="line">    int counter;</div><div class="line">&#125;segTree[4*BORDER];</div><div class="line"> </div><div class="line">/* 构建线段树 根节点开始构建区间[lef,rig]的线段树*/</div><div class="line">void construct(int index, int lef, int rig)</div><div class="line">&#123;</div><div class="line">    segTree[index].left = lef;</div><div class="line">    segTree[index].right = rig;</div><div class="line">    if(lef == rig)   // 叶节点</div><div class="line">    &#123;</div><div class="line">        segTree[index].counter = 0;</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    int mid = (lef+rig) &gt;&gt; 1;</div><div class="line">    construct((index&lt;&lt;1)+1, lef, mid);</div><div class="line">    construct((index&lt;&lt;1)+2, mid+1, rig);</div><div class="line">    segTree[index].counter = 0;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">/* 包含x的区间的值都+1 即对包含x的logn个节点的路径进行更新*/</div><div class="line">void insert(int index, int x)</div><div class="line">&#123;</div><div class="line">    ++segTree[index].counter;</div><div class="line">    if(segTree[index].left == segTree[index].right)</div><div class="line">    &#123;</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    int mid = (segTree[index].left + segTree[index].right) &gt;&gt; 1;</div><div class="line">    if(x &lt;= mid)</div><div class="line">    &#123;</div><div class="line">        insert((index&lt;&lt;1)+1, x);</div><div class="line">    &#125;else</div><div class="line">    &#123;</div><div class="line">        insert((index&lt;&lt;1)+2, x);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">/* 查询点x的逆序数，即查询[x,BORDER]的区间和 */</div><div class="line">int query(int index, int left, int right)</div><div class="line">&#123;</div><div class="line">    if(segTree[index].left == left &amp;&amp; segTree[index].right == right)</div><div class="line">    &#123;</div><div class="line">        return segTree[index].counter;</div><div class="line">    &#125;</div><div class="line">    int mid = (segTree[index].left+segTree[index].right) &gt;&gt; 1;</div><div class="line">    if(right &lt;= mid)</div><div class="line">    &#123;</div><div class="line">        return query((index&lt;&lt;1)+1,left,right);</div><div class="line">    &#125;else if(left &gt; mid)</div><div class="line">    &#123;</div><div class="line">        return query((index&lt;&lt;1)+2,left,right);</div><div class="line">    &#125;</div><div class="line">    return query((index&lt;&lt;1)+1,left,mid) + query((index&lt;&lt;1)+2,mid+1,right);</div><div class="line">&#125;</div><div class="line"> </div><div class="line">/* 测试序列 ：answer: 10 */</div><div class="line">int testPoint[10] = &#123;</div><div class="line">    1, 4, 2, 9, 48,</div><div class="line">   15, 13, 44, 6, 90</div><div class="line">&#125;;</div><div class="line"> </div><div class="line">void main()</div><div class="line">&#123;</div><div class="line">    construct(0,0,100);           // 构建[0,100]线段树</div><div class="line">    int reverseSum = 0;           // 记录逆序对数</div><div class="line">    for(int i = 0; i &lt; 10; ++i)   // 查询当前逆序数</div><div class="line">    &#123;</div><div class="line">        reverseSum += query(0,testPoint[i],BORDER);</div><div class="line">        printf(&quot;num of reverse order is: %d\n&quot;, reverseSum);</div><div class="line">        insert(0,testPoint[i]);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>由于线段树的插入和查询操作皆可以在lgn的时间内完成，故遍历一个数列求逆序数的时间复杂度为O(nlgn)，空间复杂度为O(nlgn)。<br>接下来我将会用线段树解决hdu1394这个题</p>
+<h1 id="解法四，树状数组"><a href="#解法四，树状数组" class="headerlink" title="解法四，树状数组"></a>解法四，树状数组</h1><p>Todo…</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2015/08/14/求逆序对的个数/">求逆序对的个数</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Bingo</a></p>
+        <p><span>发布时间:</span>2015-08-14, 20:22:19</p>
+        <p><span>最后更新:</span>2015-08-19, 21:00:14</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2015/08/14/求逆序对的个数/" title="求逆序对的个数">http://blog.acbingo.cn/2015/08/14/求逆序对的个数/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.acbingo.cn/2015/08/14/求逆序对的个数/　　作者: Bingo" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2015/08/14/线段树学习笔记-4-hdu1394/">
+                    线段树学习笔记-4-hdu1394
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2015/08/14/线段树学习笔记-3-hdu1754/">
+                    线段树学习笔记-3-hdu1754
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#定义"><span class="toc-number">1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解法一，暴力"><span class="toc-number">2.</span> <span class="toc-text">解法一，暴力</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解法二，归并排序"><span class="toc-number">3.</span> <span class="toc-text">解法二，归并排序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解法三，线段树"><span class="toc-number">4.</span> <span class="toc-text">解法三，线段树</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解法四，树状数组"><span class="toc-number">5.</span> <span class="toc-text">解法四，树状数组</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"求逆序对的个数　| Bingo's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2015/08/14/线段树学习笔记-4-hdu1394/" title="上一篇: 线段树学习笔记-4-hdu1394">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2015/08/14/线段树学习笔记-3-hdu1754/" title="下一篇: 线段树学习笔记-3-hdu1754">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/一步一步学习红黑树-2/">一步一步学习红黑树-2</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/04/一步一步学习红黑树/">一步一步学习红黑树-1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/回文解码/">回文解码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/C++中虚析构函数的作用/">C++中虚析构函数的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/const/">const</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/const与常成员函数/">const与常成员函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/31/虚拟继承/">虚拟继承</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/31/函数指针/">函数指针</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/记事本/">记事本</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/StarFiles/">StarFiles</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/酒店管理系统/">酒店管理系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/飞机大战/">飞机大战</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/仿函数/">仿函数/函数对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/二叉树中和为某一值的路径/">二叉树中和为某一值的路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/递归实现反转列表/">递归实现反转链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/快速幂/">快速幂</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/bitset的用法/">bitset的用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/二分查找、归并排序和快速排序/">二分查找、归并排序和快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/25/重建二叉树/">重建二叉树</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/25/leetcode_5/">LeetCode_5:Longest Palindromic Substring</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_4/">LeetCode_4:Median of Two Sorted Arrays</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_3/">LeetCode_3:Longest Substring Without Repeating Characters</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_2/">LeetCode_2:Add Two Numbers</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_1_Two Sum/">LeetCode_1:Two Sum</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/07/Bingo's_ShadowSocks使用说明/">Bingo's_Shadowsocks</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/如何优雅的开启wifi热点/">如何优雅的开启wifi热点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/如何优雅的连接指定wifi热点/">如何优雅的连接指定wifi热点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/对AndroidWifi状态广播的研究/">对AndroidWifi状态广播的研究</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/coursera数据结构_字符串_课后作业/">coursera数据结构_字符串_课后作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/简单几步在Android_Studio上实现二维码的扫描/">简单几步在Android_Studio上实现二维码的生成与扫描</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/coursera_算法课后习题/">coursera_算法课后习题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/coursera_计算机组成学习笔记/">coursera_计算机组成学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/20/cocos2dx-飞机大战/">cocos2dx-飞机大战</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/14/android_ping不通电脑/">android_ping不通电脑</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/14/android创建与连接热点/">android创建与连接热点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/01/coursera_算法_递归/">coursera_算法_递归</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/30/coursera_操作系统学习笔记/">coursera_操作系统学习笔记_计算机操作系统概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/29/编译原理_中科大公开课_第一单元编译器介绍作业/">编译原理_中科大公开课_第一单元编译器介绍作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/25/关于Inflater与findViewById()的思考/">关于Inflater与findViewById()的思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/11/coursera_魔兽世界终结版/">coursera_魔兽世界终结版</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/05/coursera_算法作业_枚举/">coursera_算法作业_枚举</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/27/coursera_c++高级主体和c++11新特性/">coursera_c++高级主体和c++11新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/27/coursera_c++期末考试/">coursera_c++期末考试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/24/coursera_STL2作业/">coursera_STL2作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/21/coursera容器适配器/">coursera容器适配器_算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/21/coursera标准模版库STL2/">coursera标准模版库STL2</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/20/coursera编程作业-STL1/">coursera编程作业-STL1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/20/coursera疑问/">coursera疑问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/19/coursera学习笔记-函数对象/">coursera学习笔记-函数对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/19/coursera学习笔记-顺序容器Vector/">coursera学习笔记-顺序容器Vector、List和Deque</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/05/算法学习笔记-14-最长公共子序列/">算法学习笔记-14-最长公共子序列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/03/算法学习笔记-13-矩阵连乘问题/">算法学习笔记-13-矩阵连乘问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/01/算法学习笔记-12-循环赛日程表/">算法学习笔记-12-循环赛日程表</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/01/算法学习笔记-11-最接近点对问题/">算法学习笔记-11-最接近点对问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/01/算法学习笔记-10-线性时间选择/">算法学习笔记-10-线性时间选择</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/27/算法学习笔记-9-快速排序/">算法学习笔记-9-快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/26/算法学习笔记-8-合并排序/">算法学习笔记-8-归并排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/24/算法学习笔记-7-棋盘覆盖问题/">算法学习笔记-7-棋盘覆盖问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/22/算法学习笔记-6-Strassen矩阵乘法/">算法学习笔记-6-Strassen矩阵乘法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/21/算法学习笔记-5-Hanoi塔问题/">算法学习笔记-5-Hanoi塔问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/20/算法学习笔记-4-整数划分问题/">算法学习笔记-4-整数划分问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/19/算法学习笔记-3-排列问题/">算法学习笔记-3-排列问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/18/算法学习笔记-2-递归的概念/">算法学习笔记-2-递归的概念</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/17/coursera_标准模板库STL/">coursera_标准模板库STL</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/17/算法学习笔记-0-序/">算法学习笔记-0-序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/17/算法学习笔记-1-NP完全性理论/">算法学习笔记-1-NP完全性理论</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/14/文件操作和模板_编程作业/">文件操作和模板_编程作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/11/ubuntu下安装最新的nodejs(v4.2.2)/">ubuntu下安装最新的nodejs(v4.2.2)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/11/ubuntu14.04的环境变量/">ubuntu14.04的环境变量</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/01/coursera学习笔记_文件操作和模板/">coursera学习笔记_文件操作和模板</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/31/coursera学习笔记_多态和虚函数/">coursera学习笔记_多态和虚函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/28/Coursera_程序设计与晋级_继承与派生_编程作业/">Coursera_程序设计与晋级_继承与派生_编程作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/22/科大OJ-数据结构-DNA序列/">科大OJ-数据结构-DNA序列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/20/科大OJ-数据结构-求表达式串的后缀表达式和值/">科大OJ-数据结构-求表达式串的后缀表达式和值</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/01/科大OJ-数据结构-击鼓传花/">科大OJ-数据结构-击鼓传花</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/30/科大OJ-数据结构-求集合的交并补集/">科大OJ-数据结构-求集合的交并补集</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/27/hexo无法本地访问/">hexo无法本地访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/26/继承与派生/">coursera学习笔记_继承与派生</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/26/大数类模板/">大数类模板</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/15/vimium学习笔记/">vimium学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/04/程序员矩阵/">程序员矩阵</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/03/coursera学习笔记_运算符重载/">coursera学习笔记_运算符重载</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/01/写hexo博客、markdown文章时图床的挑选/">写hexo博客、markdown文章时图床的挑选</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/31/coursera学习笔记-c++程序设计/">coursera学习笔记-c++程序设计</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/29/Linux下C语言应用编程学习笔记/">Linux下C语言应用编程学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/28/linux学习笔记2/">linux学习笔记2</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/27/Bingo's exVim/">Bingo的VIM</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/27/linux下去掉^M的方法/">linux下去掉^M的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/27/vim的持久撤销功能/">vim的持久撤销功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/25/linux学习笔记/">linux学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/线段树学习笔记-7-hdu1698/">线段树学习笔记-7-hdu1698</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/线段树学习笔记-6-区间更新/">线段树学习笔记-6-区间更新</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/Coursera_程序设计与算法_C程序设计进阶/">Coursera_程序设计与算法_C程序设计进阶</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/线段树学习笔记-5-hdu2795/">线段树学习笔记-5-hdu2795</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/14/线段树学习笔记-4-hdu1394/">线段树学习笔记-4-hdu1394</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/14/求逆序对的个数/">求逆序对的个数</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/14/线段树学习笔记-3-hdu1754/">线段树学习笔记-3-hdu1754</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/13/线段树学习笔记-2-hdu1166/">线段树学习笔记-2-hdu1166</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/13/线段树学习笔记/">线段树学习笔记-1-入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/11/Coursera_程序设计与算法_计算导论与C语言基础_期末编程测试/">Coursera_程序设计与算法_计算导论与C语言基础_期末编程测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/Coursera_程序设计与算法_C程序设计进阶_C程序中的函数/">Coursera_程序设计与算法_计算导论与C语言基础_数组应用练习</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/Coursera_程序设计与算法_计算导论与C语言基础_数组应用练习/">Coursera_程序设计与算法_计算导论与C语言基础_数组应用练习</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/hdu4821 String/">hdu4821 String</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/09/Rolling Hash(Rabin-Karp算法)匹配字符串/">Rolling Hash(Rabin-Karp算法)匹配字符串</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/09/设置vim的默认工作路径/">设置vim的默认工作路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/滑动窗口的单调队列/">滑动窗口的单调队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/ssh -T git@github.com出现Permission denied (publickey)/">ssh -T git@github.com出现Permission denied (publickey)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/29/UVa10791-Minimum-Sum-LCM/">UVa10791-Minimum Sum LCM</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/29/uva100/">uva100</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016 Bingo
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

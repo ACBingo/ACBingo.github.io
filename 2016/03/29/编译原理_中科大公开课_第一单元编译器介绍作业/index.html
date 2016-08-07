@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Bingo" />
+
+
+
+<meta name="description" content="第一节课就让实现一个小的编译器。。。。。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译原理_中科大公开课_第一单元编译器介绍作业">
+<meta property="og:url" content="http://blog.acbingo.cn/2016/03/29/编译原理_中科大公开课_第一单元编译器介绍作业/index.html">
+<meta property="og:site_name" content="Bingo's Blog">
+<meta property="og:description" content="第一节课就让实现一个小的编译器。。。。。">
+<meta property="og:updated_time" content="2016-03-29T12:31:13.038Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="编译原理_中科大公开课_第一单元编译器介绍作业">
+<meta name="twitter:description" content="第一节课就让实现一个小的编译器。。。。。">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Bingo&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>编译原理_中科大公开课_第一单元编译器介绍作业 | Bingo&#39;s Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Bingo</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">Here&#39;s My Second Brains</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:123@123.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Array/">Array</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hash-Table/">Hash Table</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LeetCode/">LeetCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linked-List/">Linked List</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/">Math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/">STL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anroid/">anroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/books/">books</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c#</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocos/">cocos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocos2dx/">cocos2dx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/const/">const</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coursera/">coursera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hash/">hash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hdu/">hdu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/offer/">offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/other/">other</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/poj/">poj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string/">string</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/uva/">uva</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二分/">二分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二叉树/">二叉树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/位运算/">位运算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其它/">其它</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分治/">分治</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态规划/">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单调队列/">单调队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/回溯/">回溯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串/">字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/指针/">指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/枚举/">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树/">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/红黑树/">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线段树/">线段树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/继承/">继承</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译原理/">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚函数/">虚函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆序对/">逆序对</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/递归/">递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/链表/">链表</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于前端</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Bingo</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Bingo</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Here&#39;s My Second Brains</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:123@123.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-编译原理_中科大公开课_第一单元编译器介绍作业" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/29/编译原理_中科大公开课_第一单元编译器介绍作业/" class="article-date">
+      <time datetime="2016-03-29T11:58:05.000Z" itemprop="datePublished">2016-03-29</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      编译原理_中科大公开课_第一单元编译器介绍作业
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编译原理/">编译原理</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>第一节课就让实现一个小的编译器。。。。。<br><a id="more"></a></p>
+<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>在课程中，我们讨论一个小型的从表达式语言Sum到栈计算机Stack的编译器，<br>在附件中，你能找到对该编译器的一个C语言实现，但这个实现是不完整的，请你<br>把缺少的代码补充完整（不超过10行代码）。<br>加分题：实现常量折叠优化。</p>
+</blockquote>
+<h1 id="题目源码"><a href="#题目源码" class="headerlink" title="题目源码"></a>题目源码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line"></div><div class="line">#define TODO()                                  \</div><div class="line">  do&#123;                                                           \</div><div class="line">    printf (&quot;\nAdd your code here: file \&quot;%s\&quot;, line %d\n&quot;,     \</div><div class="line">            __FILE__, __LINE__);                                \</div><div class="line">  &#125;while(0)</div><div class="line"></div><div class="line">///////////////////////////////////////////////</div><div class="line">// Data structures for the Sum language.</div><div class="line">enum Exp_Kind_t &#123;EXP_INT, EXP_SUM&#125;;</div><div class="line">struct Exp_t</div><div class="line">&#123;</div><div class="line">  enum Exp_Kind_t kind;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct Exp_Int</div><div class="line">&#123;</div><div class="line">  enum Exp_Kind_t kind;</div><div class="line">  int i;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct Exp_Sum</div><div class="line">&#123;</div><div class="line">  enum Exp_Kind_t kind;</div><div class="line">  struct Exp_t *left;</div><div class="line">  struct Exp_t *right;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">// &quot;constructors&quot;</div><div class="line">struct Exp_t *Exp_Int_new (int i)</div><div class="line">&#123;</div><div class="line">  struct Exp_Int *p = malloc (sizeof(*p));</div><div class="line">  p-&gt;kind = EXP_INT;</div><div class="line">  p-&gt;i = i;</div><div class="line">  return (struct Exp_t *)p;</div><div class="line">&#125;</div><div class="line"></div><div class="line">struct Exp_t *Exp_Sum_new (struct Exp_t *left, struct Exp_t *right)</div><div class="line">&#123;</div><div class="line">  struct Exp_Sum *p = malloc (sizeof(*p));</div><div class="line">  p-&gt;kind = EXP_SUM;</div><div class="line">  p-&gt;left = left;</div><div class="line">  p-&gt;right = right;</div><div class="line">  return (struct Exp_t *)p;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// &quot;printer&quot;</div><div class="line">void Exp_print (struct Exp_t *exp)</div><div class="line">&#123;</div><div class="line">  switch (exp-&gt;kind)&#123;</div><div class="line">  case EXP_INT:&#123;</div><div class="line">    struct Exp_Int *p = (struct Exp_Int *)exp;</div><div class="line">    printf (&quot;%d&quot;, p-&gt;i);</div><div class="line">    break;</div><div class="line">  &#125;</div><div class="line">  case EXP_SUM:&#123;</div><div class="line">    struct Exp_Sum *p = (struct Exp_Sum *)exp;</div><div class="line">    Exp_print (p-&gt;left);</div><div class="line">    printf (&quot;+&quot;);</div><div class="line">    Exp_print (p-&gt;right);</div><div class="line">    break;</div><div class="line">  &#125;</div><div class="line">  default:</div><div class="line">    break;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//////////////////////////////////////////////</div><div class="line">// Data structures for the Stack language.</div><div class="line">enum Stack_Kind_t &#123;STACK_ADD, STACK_PUSH&#125;;</div><div class="line">struct Stack_t</div><div class="line">&#123;</div><div class="line">  enum Stack_Kind_t kind;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct Stack_Add</div><div class="line">&#123;</div><div class="line">  enum Stack_Kind_t kind;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct Stack_Push</div><div class="line">&#123;</div><div class="line">  enum Stack_Kind_t kind;</div><div class="line">  int i;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">// &quot;constructors&quot;</div><div class="line">struct Stack_t *Stack_Add_new ()</div><div class="line">&#123;</div><div class="line">  struct Stack_Add *p = malloc (sizeof(*p));</div><div class="line">  p-&gt;kind = STACK_ADD;</div><div class="line">  return (struct Stack_t *)p;</div><div class="line">&#125;</div><div class="line"></div><div class="line">struct Stack_t *Stack_Push_new (int i)</div><div class="line">&#123;</div><div class="line">  struct Stack_Push *p = malloc (sizeof(*p));</div><div class="line">  p-&gt;kind = STACK_PUSH;</div><div class="line">  p-&gt;i = i;</div><div class="line">  return (struct Stack_t *)p;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/// instruction list</div><div class="line">struct List_t</div><div class="line">&#123;</div><div class="line">  struct Stack_t *instr;</div><div class="line">  struct List_t *next;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct List_t *List_new (struct Stack_t *instr, struct List_t *next)</div><div class="line">&#123;</div><div class="line">  struct List_t *p = malloc (sizeof (*p));</div><div class="line">  p-&gt;instr = instr;</div><div class="line">  p-&gt;next = next;</div><div class="line">  return p;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// &quot;printer&quot;</div><div class="line">void List_reverse_print (struct List_t *list)</div><div class="line">&#123;</div><div class="line">  TODO();</div><div class="line">&#125;</div><div class="line"></div><div class="line">//////////////////////////////////////////////////</div><div class="line">// a compiler from Sum to Stack</div><div class="line">struct List_t *all = 0;</div><div class="line"></div><div class="line">void emit (struct Stack_t *instr)</div><div class="line">&#123;</div><div class="line">  all = List_new (instr, all);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void compile (struct Exp_t *exp)</div><div class="line">&#123;</div><div class="line">  switch (exp-&gt;kind)&#123;</div><div class="line">  case EXP_INT:&#123;</div><div class="line">    struct Exp_Int *p = (struct Exp_Int *)exp;</div><div class="line">    emit (Stack_Push_new (p-&gt;i));</div><div class="line">    break;</div><div class="line">  &#125;</div><div class="line">  case EXP_SUM:&#123;</div><div class="line">    TODO();</div><div class="line">    break;</div><div class="line">  &#125;</div><div class="line">  default:</div><div class="line">    break;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//////////////////////////////////////////////////</div><div class="line">// program entry</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">  printf(&quot;Compile starting\n&quot;);</div><div class="line">  // build an expression tree:</div><div class="line">  //            +</div><div class="line">  //           / \</div><div class="line">  //          +   4</div><div class="line">  //         / \</div><div class="line">  //        2   3</div><div class="line">  struct Exp_t *exp = Exp_Sum_new (Exp_Sum_new(Exp_Int_new (2)</div><div class="line">                                               , Exp_Int_new (3))</div><div class="line">                                   , Exp_Int_new (4));</div><div class="line">  // print out this tree:</div><div class="line">  printf (&quot;the expression is:\n&quot;);</div><div class="line">  Exp_print (exp);</div><div class="line">  // compile this tree to Stack machine instructions</div><div class="line">  compile (exp);</div><div class="line"></div><div class="line">  // print out the generated Stack instructons:</div><div class="line">  List_reverse_print (all);</div><div class="line">  </div><div class="line">  printf(&quot;\nCompile finished\n&quot;);</div><div class="line">  return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="理解"><a href="#理解" class="headerlink" title="理解"></a>理解</h1><p>要想做题，必须理解老师给出的代码的运行原理啊<br><strong>注意，代码中用到了共用体的知识点</strong><br>学了共用体后第一次在应用中见到，原来蛮好用的嘛</p>
+<p>编译器分为前端和后端，前端负责将输入语言进行分析，并保存下来一颗语法树;后端依据这个语法树将其翻译成目标语言。<br>如果你之前接触过面向对象那这段代码就好理解了。<br>Exp_t可以理解成Exp_Int和Exp_Sum的父类，Exp_Int_new()生成一个叶子节点，Exp_Sum_new()将两个节点（子树）合并，Exp_print()后续遍历这颗二叉树。<br>同理，Stack_t理解为Stack_Add和Stack_Push的父类。Stack_Add_new()生成一个add语句，Stack_Push_new()生成一个push语句。<br>最后将生成的语句用链表链接来(List_t 和List_new()结合emit()函数)。<br>显然，List_reverse_print是让你反向输出这条链表。下面是代码：</p>
+<h2 id="第一段代码"><a href="#第一段代码" class="headerlink" title="第一段代码"></a>第一段代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">if (list == NULL) return ;</div><div class="line">List_reverse_print(list-&gt;next);</div><div class="line">switch (list-&gt;instr-&gt;kind)</div><div class="line">&#123;</div><div class="line">case STACK_PUSH:</div><div class="line">    printf(&quot;\npush %d&quot;, ((struct Stack_Push *)list-&gt;instr)-&gt;i);</div><div class="line">    break;</div><div class="line">case STACK_ADD:</div><div class="line">    printf(&quot;\nadd&quot;);</div><div class="line">    break;</div><div class="line">default:</div><div class="line">    break;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>compile()当然就是最后的后端啦，执行翻译工作。<br>同样需要递归的遍历这课树进行翻译，下面是第二段代码</p>
+<h2 id="第二段代码"><a href="#第二段代码" class="headerlink" title="第二段代码"></a>第二段代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">struct Exp_Sum *p = (struct Exp_Sum *)exp;</div><div class="line">if(p-&gt;left != NULL) compile(p-&gt;left);</div><div class="line">if(p-&gt;right != NULL) compile(p-&gt;right);</div><div class="line">emit(Stack_Add_new());</div><div class="line">break;</div></pre></td></tr></table></figure>
+<h1 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h1><p>实现常量折叠优化。也就是对那个二叉树进行优化。<br>比如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//            +</div><div class="line">//           / \</div><div class="line">//          +   4</div><div class="line">//         / \</div><div class="line">//        2   3</div></pre></td></tr></table></figure></p>
+<p>一次优化成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">//            +</div><div class="line">//           / \</div><div class="line">//          5   4</div></pre></td></tr></table></figure></p>
+<p>最终优化成一个数字<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">//           9</div></pre></td></tr></table></figure></p>
+<p><strong>注意</strong>(题目没有给出要求，但是我认为应该注意到的地方)</p>
+<ol>
+<li>子树含有变量的情况下显然不能优化</li>
+<li>注意避免内存泄漏<h2 id="优化函数"><a href="#优化函数" class="headerlink" title="优化函数"></a>优化函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">struct Exp_t* optimize(struct Exp_t* exp) &#123;</div><div class="line">	switch (exp-&gt;kind)</div><div class="line">	&#123;</div><div class="line">	case EXP_INT:</div><div class="line">		return exp;</div><div class="line">		break;</div><div class="line">	case EXP_SUM:</div><div class="line">	&#123;</div><div class="line">		struct Exp_Sum *k = (struct Exp_Sum *)exp;</div><div class="line">		if ((k)-&gt;left-&gt;kind == EXP_SUM) &#123;</div><div class="line">			struct Exp_t* p = optimize((struct Exp_t*)(k)-&gt;left);</div><div class="line">			k-&gt;left = p;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		if ((k)-&gt;right-&gt;kind == EXP_SUM) &#123;</div><div class="line">			struct Exp_t* p = optimize((struct Exp_t*)(k)-&gt;right);</div><div class="line">			k-&gt;right = p;</div><div class="line">		&#125;</div><div class="line">		if (k-&gt;left-&gt;kind==EXP_INT&amp;&amp;k-&gt;right-&gt;kind==EXP_INT)&#123;//可以优化的情况下</div><div class="line">			struct Exp_Int* p = malloc(sizeof(*p));</div><div class="line">			p-&gt;i = ((struct Exp_Int *)((k)-&gt;left))-&gt;i + ((struct Exp_Int *)((k)-&gt;right))-&gt;i;</div><div class="line">			free(k-&gt;left);</div><div class="line">			free(k-&gt;right);</div><div class="line">			free(k);//释放内存</div><div class="line">			p-&gt;kind = EXP_INT;</div><div class="line">			return (struct Exp_t*)p;</div><div class="line">		&#125;</div><div class="line">		//有变量的情况下</div><div class="line">		return exp;</div><div class="line">		break;</div><div class="line">	&#125;</div><div class="line">	default:</div><div class="line">		break;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="最终代码-含优化-："><a href="#最终代码-含优化-：" class="headerlink" title="最终代码(含优化)："></a>最终代码(含优化)：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line"></div><div class="line">#define TODO()                                  \</div><div class="line">  do&#123;                                                           \</div><div class="line">    printf (&quot;\nAdd your code here: file \&quot;%s\&quot;, line %d\n&quot;,     \</div><div class="line">            __FILE__, __LINE__);                                \</div><div class="line">  &#125;while(0)</div><div class="line"></div><div class="line">///////////////////////////////////////////////</div><div class="line">// Data structures for the Sum language.</div><div class="line">enum Exp_Kind_t &#123;EXP_INT, EXP_SUM&#125;;</div><div class="line">struct Exp_t</div><div class="line">&#123;</div><div class="line">  enum Exp_Kind_t kind;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct Exp_Int</div><div class="line">&#123;</div><div class="line">  enum Exp_Kind_t kind;</div><div class="line">  int i;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct Exp_Sum</div><div class="line">&#123;</div><div class="line">  enum Exp_Kind_t kind;</div><div class="line">  struct Exp_t *left;</div><div class="line">  struct Exp_t *right;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">// &quot;constructors&quot;</div><div class="line">struct Exp_t *Exp_Int_new (int i)</div><div class="line">&#123;</div><div class="line">  struct Exp_Int *p = malloc (sizeof(*p));</div><div class="line">  p-&gt;kind = EXP_INT;</div><div class="line">  p-&gt;i = i;</div><div class="line">  return (struct Exp_t *)p;</div><div class="line">&#125;</div><div class="line"></div><div class="line">struct Exp_t *Exp_Sum_new (struct Exp_t *left, struct Exp_t *right)</div><div class="line">&#123;</div><div class="line">  struct Exp_Sum *p = malloc (sizeof(*p));</div><div class="line">  p-&gt;kind = EXP_SUM;</div><div class="line">  p-&gt;left = left;</div><div class="line">  p-&gt;right = right;</div><div class="line">  return (struct Exp_t *)p;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// &quot;printer&quot;</div><div class="line">void Exp_print (struct Exp_t *exp)</div><div class="line">&#123;</div><div class="line">  switch (exp-&gt;kind)&#123;</div><div class="line">  case EXP_INT:&#123;</div><div class="line">    struct Exp_Int *p = (struct Exp_Int *)exp;</div><div class="line">    printf (&quot;%d&quot;, p-&gt;i);</div><div class="line">    break;</div><div class="line">  &#125;</div><div class="line">  case EXP_SUM:&#123;</div><div class="line">    struct Exp_Sum *p = (struct Exp_Sum *)exp;</div><div class="line">    Exp_print (p-&gt;left);</div><div class="line">    printf (&quot;+&quot;);</div><div class="line">    Exp_print (p-&gt;right);</div><div class="line">    break;</div><div class="line">  &#125;</div><div class="line">  default:</div><div class="line">    break;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//////////////////////////////////////////////</div><div class="line">// Data structures for the Stack language.</div><div class="line">enum Stack_Kind_t &#123;STACK_ADD, STACK_PUSH&#125;;</div><div class="line">struct Stack_t</div><div class="line">&#123;</div><div class="line">  enum Stack_Kind_t kind;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct Stack_Add</div><div class="line">&#123;</div><div class="line">  enum Stack_Kind_t kind;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct Stack_Push</div><div class="line">&#123;</div><div class="line">  enum Stack_Kind_t kind;</div><div class="line">  int i;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">// &quot;constructors&quot;</div><div class="line">struct Stack_t *Stack_Add_new ()</div><div class="line">&#123;</div><div class="line">  struct Stack_Add *p = malloc (sizeof(*p));</div><div class="line">  p-&gt;kind = STACK_ADD;</div><div class="line">  return (struct Stack_t *)p;</div><div class="line">&#125;</div><div class="line"></div><div class="line">struct Stack_t *Stack_Push_new (int i)</div><div class="line">&#123;</div><div class="line">  struct Stack_Push *p = malloc (sizeof(*p));</div><div class="line">  p-&gt;kind = STACK_PUSH;</div><div class="line">  p-&gt;i = i;</div><div class="line">  return (struct Stack_t *)p;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/// instruction list</div><div class="line">struct List_t</div><div class="line">&#123;</div><div class="line">  struct Stack_t *instr;</div><div class="line">  struct List_t *next;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct List_t *List_new (struct Stack_t *instr, struct List_t *next)</div><div class="line">&#123;</div><div class="line">  struct List_t *p = malloc (sizeof (*p));</div><div class="line">  p-&gt;instr = instr;</div><div class="line">  p-&gt;next = next;</div><div class="line">  return p;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// &quot;printer&quot;</div><div class="line">void List_reverse_print (struct List_t *list)</div><div class="line">&#123;</div><div class="line">  //TODO();</div><div class="line">    if (list == NULL) return ;</div><div class="line">    List_reverse_print(list-&gt;next);</div><div class="line">    switch (list-&gt;instr-&gt;kind)</div><div class="line">    &#123;</div><div class="line">    case STACK_PUSH:</div><div class="line">        printf(&quot;\npush %d&quot;, ((struct Stack_Push *)list-&gt;instr)-&gt;i);</div><div class="line">        break;</div><div class="line">    case STACK_ADD:</div><div class="line">        printf(&quot;\nadd&quot;);</div><div class="line">        break;</div><div class="line">    default:</div><div class="line">        break;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//////////////////////////////////////////////////</div><div class="line">// a compiler from Sum to Stack</div><div class="line">struct List_t *all = 0;</div><div class="line"></div><div class="line">void emit (struct Stack_t *instr)</div><div class="line">&#123;</div><div class="line">  all = List_new (instr, all);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void compile (struct Exp_t *exp)</div><div class="line">&#123;</div><div class="line">  switch (exp-&gt;kind)&#123;</div><div class="line">  case EXP_INT:&#123;</div><div class="line">    struct Exp_Int *p = (struct Exp_Int *)exp;</div><div class="line">    emit (Stack_Push_new (p-&gt;i));</div><div class="line">    break;</div><div class="line">  &#125;</div><div class="line">  case EXP_SUM:&#123;</div><div class="line">    //TODO();</div><div class="line">    struct Exp_Sum *p = (struct Exp_Sum *)exp;</div><div class="line">    if(p-&gt;left != NULL) compile(p-&gt;left);</div><div class="line">    if(p-&gt;right != NULL) compile(p-&gt;right);</div><div class="line">    emit(Stack_Add_new());</div><div class="line">    break;</div><div class="line">  &#125;</div><div class="line">  default:</div><div class="line">    break;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">struct Exp_t* optimize(struct Exp_t* exp) &#123;</div><div class="line">	switch (exp-&gt;kind)</div><div class="line">	&#123;</div><div class="line">	case EXP_INT:</div><div class="line">		return exp;</div><div class="line">		break;</div><div class="line">	case EXP_SUM:</div><div class="line">	&#123;</div><div class="line">		struct Exp_Sum *k = (struct Exp_Sum *)exp;</div><div class="line">		if ((k)-&gt;left-&gt;kind == EXP_SUM) &#123;</div><div class="line">			struct Exp_t* p = optimize((struct Exp_t*)(k)-&gt;left);</div><div class="line">			k-&gt;left = p;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		if ((k)-&gt;right-&gt;kind == EXP_SUM) &#123;</div><div class="line">			struct Exp_t* p = optimize((struct Exp_t*)(k)-&gt;right);</div><div class="line">			k-&gt;right = p;</div><div class="line">		&#125;</div><div class="line">		if (k-&gt;left-&gt;kind==EXP_INT&amp;&amp;k-&gt;right-&gt;kind==EXP_INT)&#123;//可以优化的情况下</div><div class="line">			struct Exp_Int* p = malloc(sizeof(*p));</div><div class="line">			p-&gt;i = ((struct Exp_Int *)((k)-&gt;left))-&gt;i + ((struct Exp_Int *)((k)-&gt;right))-&gt;i;</div><div class="line">			free(k-&gt;left);</div><div class="line">			free(k-&gt;right);</div><div class="line">			free(k);//释放内存</div><div class="line">			p-&gt;kind = EXP_INT;</div><div class="line">			return (struct Exp_t*)p;</div><div class="line">		&#125;</div><div class="line">		//有变量的情况下</div><div class="line">		return exp;</div><div class="line">		break;</div><div class="line">	&#125;</div><div class="line">	default:</div><div class="line">		break;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">//////////////////////////////////////////////////</div><div class="line">// program entry</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">  printf(&quot;Compile starting\n&quot;);</div><div class="line">  // build an expression tree:</div><div class="line">  //            +</div><div class="line">  //           / \</div><div class="line">  //          +   4</div><div class="line">  //         / \</div><div class="line">  //        2   3</div><div class="line">  struct Exp_t *exp = Exp_Sum_new (Exp_Sum_new(Exp_Int_new (2)</div><div class="line">                                               , Exp_Int_new (3))</div><div class="line">                                   , Exp_Int_new (4));</div><div class="line">  // print out this tree:</div><div class="line">  printf (&quot;the expression is:\n&quot;);</div><div class="line">  Exp_print (exp);</div><div class="line"></div><div class="line">  //优化</div><div class="line">  exp=optimize(exp);</div><div class="line">  // compile this tree to Stack machine instructions</div><div class="line">  compile (exp);</div><div class="line"></div><div class="line">  // print out the generated Stack instructons:</div><div class="line">  List_reverse_print (all);</div><div class="line"></div><div class="line">  printf(&quot;\nCompile finished\n&quot;);</div><div class="line">  return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从做题到写完论文花了两个小时时间~<br>编译原理确实还蛮有意思的。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/03/29/编译原理_中科大公开课_第一单元编译器介绍作业/">编译原理_中科大公开课_第一单元编译器介绍作业</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Bingo</a></p>
+        <p><span>发布时间:</span>2016-03-29, 19:58:05</p>
+        <p><span>最后更新:</span>2016-03-29, 20:31:13</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/03/29/编译原理_中科大公开课_第一单元编译器介绍作业/" title="编译原理_中科大公开课_第一单元编译器介绍作业">http://blog.acbingo.cn/2016/03/29/编译原理_中科大公开课_第一单元编译器介绍作业/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.acbingo.cn/2016/03/29/编译原理_中科大公开课_第一单元编译器介绍作业/　　作者: Bingo" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/03/30/coursera_操作系统学习笔记/">
+                    coursera_操作系统学习笔记_计算机操作系统概述
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/03/25/关于Inflater与findViewById()的思考/">
+                    关于Inflater与findViewById()的思考
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#题目"><span class="toc-number">1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#题目源码"><span class="toc-number">2.</span> <span class="toc-text">题目源码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#理解"><span class="toc-number">3.</span> <span class="toc-text">理解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一段代码"><span class="toc-number">3.1.</span> <span class="toc-text">第一段代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第二段代码"><span class="toc-number">3.2.</span> <span class="toc-text">第二段代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#优化"><span class="toc-number">4.</span> <span class="toc-text">优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#优化函数"><span class="toc-number">4.1.</span> <span class="toc-text">优化函数</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#最终代码-含优化-："><span class="toc-number">5.</span> <span class="toc-text">最终代码(含优化)：</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"编译原理_中科大公开课_第一单元编译器介绍作业　| Bingo's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/03/30/coursera_操作系统学习笔记/" title="上一篇: coursera_操作系统学习笔记_计算机操作系统概述">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/03/25/关于Inflater与findViewById()的思考/" title="下一篇: 关于Inflater与findViewById()的思考">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/一步一步学习红黑树-2/">一步一步学习红黑树-2</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/04/一步一步学习红黑树/">一步一步学习红黑树-1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/回文解码/">回文解码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/C++中虚析构函数的作用/">C++中虚析构函数的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/const/">const</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/const与常成员函数/">const与常成员函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/31/虚拟继承/">虚拟继承</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/31/函数指针/">函数指针</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/记事本/">记事本</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/StarFiles/">StarFiles</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/酒店管理系统/">酒店管理系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/飞机大战/">飞机大战</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/仿函数/">仿函数/函数对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/二叉树中和为某一值的路径/">二叉树中和为某一值的路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/递归实现反转列表/">递归实现反转链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/快速幂/">快速幂</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/bitset的用法/">bitset的用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/二分查找、归并排序和快速排序/">二分查找、归并排序和快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/25/重建二叉树/">重建二叉树</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/25/leetcode_5/">LeetCode_5:Longest Palindromic Substring</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_4/">LeetCode_4:Median of Two Sorted Arrays</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_3/">LeetCode_3:Longest Substring Without Repeating Characters</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_2/">LeetCode_2:Add Two Numbers</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_1_Two Sum/">LeetCode_1:Two Sum</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/07/Bingo's_ShadowSocks使用说明/">Bingo's_Shadowsocks</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/如何优雅的开启wifi热点/">如何优雅的开启wifi热点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/如何优雅的连接指定wifi热点/">如何优雅的连接指定wifi热点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/对AndroidWifi状态广播的研究/">对AndroidWifi状态广播的研究</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/coursera数据结构_字符串_课后作业/">coursera数据结构_字符串_课后作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/简单几步在Android_Studio上实现二维码的扫描/">简单几步在Android_Studio上实现二维码的生成与扫描</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/coursera_算法课后习题/">coursera_算法课后习题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/coursera_计算机组成学习笔记/">coursera_计算机组成学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/20/cocos2dx-飞机大战/">cocos2dx-飞机大战</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/14/android_ping不通电脑/">android_ping不通电脑</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/14/android创建与连接热点/">android创建与连接热点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/01/coursera_算法_递归/">coursera_算法_递归</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/30/coursera_操作系统学习笔记/">coursera_操作系统学习笔记_计算机操作系统概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/29/编译原理_中科大公开课_第一单元编译器介绍作业/">编译原理_中科大公开课_第一单元编译器介绍作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/25/关于Inflater与findViewById()的思考/">关于Inflater与findViewById()的思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/11/coursera_魔兽世界终结版/">coursera_魔兽世界终结版</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/05/coursera_算法作业_枚举/">coursera_算法作业_枚举</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/27/coursera_c++高级主体和c++11新特性/">coursera_c++高级主体和c++11新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/27/coursera_c++期末考试/">coursera_c++期末考试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/24/coursera_STL2作业/">coursera_STL2作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/21/coursera容器适配器/">coursera容器适配器_算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/21/coursera标准模版库STL2/">coursera标准模版库STL2</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/20/coursera编程作业-STL1/">coursera编程作业-STL1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/20/coursera疑问/">coursera疑问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/19/coursera学习笔记-函数对象/">coursera学习笔记-函数对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/19/coursera学习笔记-顺序容器Vector/">coursera学习笔记-顺序容器Vector、List和Deque</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/05/算法学习笔记-14-最长公共子序列/">算法学习笔记-14-最长公共子序列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/03/算法学习笔记-13-矩阵连乘问题/">算法学习笔记-13-矩阵连乘问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/01/算法学习笔记-12-循环赛日程表/">算法学习笔记-12-循环赛日程表</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/01/算法学习笔记-11-最接近点对问题/">算法学习笔记-11-最接近点对问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/01/算法学习笔记-10-线性时间选择/">算法学习笔记-10-线性时间选择</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/27/算法学习笔记-9-快速排序/">算法学习笔记-9-快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/26/算法学习笔记-8-合并排序/">算法学习笔记-8-归并排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/24/算法学习笔记-7-棋盘覆盖问题/">算法学习笔记-7-棋盘覆盖问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/22/算法学习笔记-6-Strassen矩阵乘法/">算法学习笔记-6-Strassen矩阵乘法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/21/算法学习笔记-5-Hanoi塔问题/">算法学习笔记-5-Hanoi塔问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/20/算法学习笔记-4-整数划分问题/">算法学习笔记-4-整数划分问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/19/算法学习笔记-3-排列问题/">算法学习笔记-3-排列问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/18/算法学习笔记-2-递归的概念/">算法学习笔记-2-递归的概念</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/17/coursera_标准模板库STL/">coursera_标准模板库STL</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/17/算法学习笔记-0-序/">算法学习笔记-0-序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/17/算法学习笔记-1-NP完全性理论/">算法学习笔记-1-NP完全性理论</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/14/文件操作和模板_编程作业/">文件操作和模板_编程作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/11/ubuntu下安装最新的nodejs(v4.2.2)/">ubuntu下安装最新的nodejs(v4.2.2)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/11/ubuntu14.04的环境变量/">ubuntu14.04的环境变量</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/01/coursera学习笔记_文件操作和模板/">coursera学习笔记_文件操作和模板</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/31/coursera学习笔记_多态和虚函数/">coursera学习笔记_多态和虚函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/28/Coursera_程序设计与晋级_继承与派生_编程作业/">Coursera_程序设计与晋级_继承与派生_编程作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/22/科大OJ-数据结构-DNA序列/">科大OJ-数据结构-DNA序列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/20/科大OJ-数据结构-求表达式串的后缀表达式和值/">科大OJ-数据结构-求表达式串的后缀表达式和值</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/01/科大OJ-数据结构-击鼓传花/">科大OJ-数据结构-击鼓传花</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/30/科大OJ-数据结构-求集合的交并补集/">科大OJ-数据结构-求集合的交并补集</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/27/hexo无法本地访问/">hexo无法本地访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/26/继承与派生/">coursera学习笔记_继承与派生</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/26/大数类模板/">大数类模板</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/15/vimium学习笔记/">vimium学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/04/程序员矩阵/">程序员矩阵</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/03/coursera学习笔记_运算符重载/">coursera学习笔记_运算符重载</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/01/写hexo博客、markdown文章时图床的挑选/">写hexo博客、markdown文章时图床的挑选</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/31/coursera学习笔记-c++程序设计/">coursera学习笔记-c++程序设计</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/29/Linux下C语言应用编程学习笔记/">Linux下C语言应用编程学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/28/linux学习笔记2/">linux学习笔记2</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/27/Bingo's exVim/">Bingo的VIM</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/27/linux下去掉^M的方法/">linux下去掉^M的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/27/vim的持久撤销功能/">vim的持久撤销功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/25/linux学习笔记/">linux学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/线段树学习笔记-7-hdu1698/">线段树学习笔记-7-hdu1698</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/线段树学习笔记-6-区间更新/">线段树学习笔记-6-区间更新</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/Coursera_程序设计与算法_C程序设计进阶/">Coursera_程序设计与算法_C程序设计进阶</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/线段树学习笔记-5-hdu2795/">线段树学习笔记-5-hdu2795</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/14/线段树学习笔记-4-hdu1394/">线段树学习笔记-4-hdu1394</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/14/求逆序对的个数/">求逆序对的个数</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/14/线段树学习笔记-3-hdu1754/">线段树学习笔记-3-hdu1754</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/13/线段树学习笔记-2-hdu1166/">线段树学习笔记-2-hdu1166</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/13/线段树学习笔记/">线段树学习笔记-1-入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/11/Coursera_程序设计与算法_计算导论与C语言基础_期末编程测试/">Coursera_程序设计与算法_计算导论与C语言基础_期末编程测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/Coursera_程序设计与算法_C程序设计进阶_C程序中的函数/">Coursera_程序设计与算法_计算导论与C语言基础_数组应用练习</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/Coursera_程序设计与算法_计算导论与C语言基础_数组应用练习/">Coursera_程序设计与算法_计算导论与C语言基础_数组应用练习</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/hdu4821 String/">hdu4821 String</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/09/Rolling Hash(Rabin-Karp算法)匹配字符串/">Rolling Hash(Rabin-Karp算法)匹配字符串</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/09/设置vim的默认工作路径/">设置vim的默认工作路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/滑动窗口的单调队列/">滑动窗口的单调队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/ssh -T git@github.com出现Permission denied (publickey)/">ssh -T git@github.com出现Permission denied (publickey)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/29/UVa10791-Minimum-Sum-LCM/">UVa10791-Minimum Sum LCM</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/29/uva100/">uva100</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016 Bingo
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

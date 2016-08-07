@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Bingo" />
+
+
+
+<meta name="description" content="该算法常用的场景字符串中查找子串，字符串中查找anagram形式的子串问题。
+关于字符串查找与匹配字符串可以理解为字符数组。而字符可以被转换为整数，他们具体的值依赖于他们的编码方式(ASCII/Unicode)。这意味着我们可以把字符串当成一个整形数组。找到一种方式将一组整形数字转化为一个数字，就能够使得我们借助一个预期的输入值来Hash字符串。既然字符串被看成是数组而不是单个元素，比较两个字符串">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rolling Hash(Rabin-Karp算法)匹配字符串">
+<meta property="og:url" content="http://blog.acbingo.cn/2015/08/09/Rolling Hash(Rabin-Karp算法)匹配字符串/index.html">
+<meta property="og:site_name" content="Bingo's Blog">
+<meta property="og:description" content="该算法常用的场景字符串中查找子串，字符串中查找anagram形式的子串问题。
+关于字符串查找与匹配字符串可以理解为字符数组。而字符可以被转换为整数，他们具体的值依赖于他们的编码方式(ASCII/Unicode)。这意味着我们可以把字符串当成一个整形数组。找到一种方式将一组整形数字转化为一个数字，就能够使得我们借助一个预期的输入值来Hash字符串。既然字符串被看成是数组而不是单个元素，比较两个字符串">
+<meta property="og:image" content="http://img.blog.csdn.net/20130511180045224">
+<meta property="og:image" content="http://img.blog.csdn.net/20130511180144588">
+<meta property="og:image" content="http://img.blog.csdn.net/20130511180251868">
+<meta property="og:image" content="http://img.blog.csdn.net/20130511180337601">
+<meta property="og:image" content="http://novoland.github.io/assets/img/003b4350a20067d079bb28c8c9914144">
+<meta property="og:image" content="http://novoland.github.io/assets/img/e322e54447ec197701f436a06970c810">
+<meta property="og:image" content="http://novoland.github.io/assets/img/b40a2119eeed66cef42c50ca3e85b2f4">
+<meta property="og:image" content="http://novoland.github.io/assets/img/c9ff600fb7cc33cc140d973b7b885a86">
+<meta property="og:image" content="http://novoland.github.io/assets/img/a517aef96ad9117c5a3e1bdda6ffe39c">
+<meta property="og:updated_time" content="2015-08-09T10:03:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Rolling Hash(Rabin-Karp算法)匹配字符串">
+<meta name="twitter:description" content="该算法常用的场景字符串中查找子串，字符串中查找anagram形式的子串问题。
+关于字符串查找与匹配字符串可以理解为字符数组。而字符可以被转换为整数，他们具体的值依赖于他们的编码方式(ASCII/Unicode)。这意味着我们可以把字符串当成一个整形数组。找到一种方式将一组整形数字转化为一个数字，就能够使得我们借助一个预期的输入值来Hash字符串。既然字符串被看成是数组而不是单个元素，比较两个字符串">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20130511180045224">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Bingo&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Rolling Hash(Rabin-Karp算法)匹配字符串 | Bingo&#39;s Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Bingo</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">Here&#39;s My Second Brains</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:123@123.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Array/">Array</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hash-Table/">Hash Table</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LeetCode/">LeetCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linked-List/">Linked List</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/">Math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/">STL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/anroid/">anroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/books/">books</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c#</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocos/">cocos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocos2dx/">cocos2dx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/const/">const</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coursera/">coursera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hash/">hash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hdu/">hdu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/offer/">offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/other/">other</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/poj/">poj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string/">string</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/uva/">uva</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二分/">二分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二叉树/">二叉树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/位运算/">位运算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其它/">其它</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分治/">分治</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态规划/">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单调队列/">单调队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/回溯/">回溯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串/">字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/指针/">指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/枚举/">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树/">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/红黑树/">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线段树/">线段树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/继承/">继承</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译原理/">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚函数/">虚函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆序对/">逆序对</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/递归/">递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/链表/">链表</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于前端</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Bingo</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Bingo</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Here&#39;s My Second Brains</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:123@123.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Rolling Hash(Rabin-Karp算法)匹配字符串" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/09/Rolling Hash(Rabin-Karp算法)匹配字符串/" class="article-date">
+      <time datetime="2015-08-09T05:43:24.000Z" itemprop="datePublished">2015-08-09</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Rolling Hash(Rabin-Karp算法)匹配字符串
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hash/">hash</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/字符串/">字符串</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="该算法常用的场景"><a href="#该算法常用的场景" class="headerlink" title="该算法常用的场景"></a>该算法常用的场景</h1><p>字符串中查找子串，字符串中查找anagram形式的子串问题。</p>
+<h1 id="关于字符串查找与匹配"><a href="#关于字符串查找与匹配" class="headerlink" title="关于字符串查找与匹配"></a>关于字符串查找与匹配</h1><p>字符串可以理解为字符数组。而字符可以被转换为整数，他们具体的值依赖于他们的编码方式(ASCII/Unicode)。这意味着我们可以把字符串当成一个整形数组。找到一种方式将一组整形数字转化为一个数字，就能够使得我们借助一个预期的输入值来Hash字符串。<br>既然字符串被看成是数组而不是单个元素，比较两个字符串是否想到就没有比较两个数值来得简单直接。去检查A和B是否相等，我们不得不通过枚举所有的A和B的元素来确定对于所有的i来讲A[i]=B[i]。这意味着字符串比较的复杂度依赖于字符串的长度。比较两个长度为n的字符串，需要的复杂度为O(n)。另外，去hash一个字符串是通过枚举整个字符串的元素，所以hash一个长度为n的字符串也需要O(n)的时间复杂度。</p>
+<h1 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h1><ol>
+<li>hash P 得到 h(p) 。时间复杂度：O(L)</li>
+<li>从S的索引为0开始来枚举S里长度为L的子串，hash子串并计算出h(P)’。时间复杂度为O(nL)。</li>
+<li>如果一个子串的hash值与h(P)匹配，将该子串与P进行比较，如果不匹配则停止，如果匹配则继续进行步骤2。时间复杂度：O(L)</li>
+</ol>
+<p>这个做法的时间复杂度为O(nL)。我们可以通过使用rollinghash来优化这种做法。在步骤2中，我们看到对于O(n)的子串，都花费了O(L)来hash他们(你可以想象成，找了一个长度为L的框，框住了S，每迭代一次向前移动一位，所以会移动n次，而对于每次每个框中的子串都需要迭代这个子串来算哈希值，所以复杂度为nL)。然而你可以看到这些子串中很多字符都是重复的。比如，看一个字符串“algorithms”中长度为5的子串，最开始的两个子串长度为“algor”和“lgori”。如果我们能利用这两个子串又有共同的子串“lgor”这个事实，将会为我们省去很多时间来处理每一个字符串。看起来我们应该使用rollinghash。</p>
+<h1 id="“数值”示例"><a href="#“数值”示例" class="headerlink" title="“数值”示例"></a>“数值”示例</h1><p>让我们回到字符串上去，假如我们有P和S都被转化为了两个整形数组：<br>P=[9,0,2,1,0]             (1)<br>S=[4,8,9,0,2,1,0,7]       (2)<br>长度为5的S的子串被列举在下面：<br>S0=[4,8,9,0,2]            (3)<br>S1=[8,9,0,2,1]            (4)<br>S2=[9,0,2,1,0]            (5)<br>…                       (6)<br>我们想知道P是否能与S的某个子串匹配，可以使用上面的“做法”中的三个步骤。我们的Hash函数可以是：<br><img src="http://img.blog.csdn.net/20130511180045224" alt=""><br>或者换句话说，我们将长度为5的整形数组中的每个数值都映射到一个5位数的每一位上，然后用这个数值跟m做“mod”运算。h(P)=90210mod m，h(S0)=48902mod m，以及h(S1)=98021mod m。注意这个哈希函数，我们可以是用h(S0)来帮助计算h(S1)。我们从48902开始，去除第一位得到8902，乘以10得到89020，然后加上下一位数值得到：89021.更通用的公式是：<br><img src="http://img.blog.csdn.net/20130511180144588" alt=""><br>我们可以想象为这是在所有的S的子串上一个滑动的窗口。计算下一个子串的hash值其是值关系到两个元素，这两个元素正好是在这个滑动窗口的两端（一个进来一个出去）。这里与上面有很大的不同，这里我们除了第一次去计算长度为L的第一个子串之后，我们将不在依赖这长度为L的元素集合了，我们只依赖两个元素，这使得计算子串hash值的复杂度变成了O(1)的操作。<br>在这个数值的示例中，我们看到了简单的按位存放整数，并且设置了“底”为10，因此我们可以很轻易得分离出其中的每个数字。为了通用话，我们可以采用如下通用公式：<br><img src="http://img.blog.csdn.net/20130511180251868" alt=""><br>并且计算下一个子串的hash值就是：<br><img src="http://img.blog.csdn.net/20130511180337601" alt=""></p>
+<p>感觉他解释的不是很清楚。<br>这里给出个我自己的理解，当n=5,b=10<br>h(Si+1)=(h(Si)mod(b^n)*b+S[i+L])mod m</p>
+<p>而另一位大神是这样描述的:<br>Rabin-Karp算法的关键思想是 某一子串的hash值可以根据上一子串的hash在常数时间内计算出来，这样比对的时间复杂度可以降为O(n-k)。Rabin-Karp对字符串的hash算法和上面描述的一样（按整数进制解析再求模），假设原字符串为s，H(i)表示第i个字符开始的k个子字符串的hash值，即<br><img src="http://novoland.github.io/assets/img/003b4350a20067d079bb28c8c9914144" alt="">,（先不考虑%M），则<img src="http://novoland.github.io/assets/img/e322e54447ec197701f436a06970c810" alt="">，时间为常数。<br>又由%的性质可得:<br><img src="http://novoland.github.io/assets/img/b40a2119eeed66cef42c50ca3e85b2f4" alt=""><br><img src="http://novoland.github.io/assets/img/c9ff600fb7cc33cc140d973b7b885a86" alt=""><br><img src="http://novoland.github.io/assets/img/a517aef96ad9117c5a3e1bdda6ffe39c" alt=""><br>即 i+1 处子串的 hash 可以由 i 处子串的 hash 直接计算而得，在中间结果 %M 主要是为了防止溢出。<br>M 一般选取一个非常大的数字，子串的数目相对而言非常少，产生散列碰撞的概率为 1/M，可以忽略不计。<br>代码实现如下，这里当hash一致时没有再回退检查。可以看到 Rabin-Karp 的瓶颈在于每个内循环都进行了乘和模运算，模运算是比较耗时的，而其他算法大部分只需要进行字符比对.</p>
+<h1 id="回到字符串的问题上"><a href="#回到字符串的问题上" class="headerlink" title="回到字符串的问题上"></a>回到字符串的问题上</h1><p>既然字符串可以被转换为数字，我们可以在字符串上也像跟数值的示例一样用同样的方法来提高运行效率。算法实现如下：</p>
+<ol>
+<li>Hash P 得到h(P) 时间复杂度为O(L)</li>
+<li>Hash S中长度为L的第一个子串 时间复杂度为O(L)</li>
+<li>使用rolling hash 方法来计算S 所有的子串 O(n)，并以计算出的hash值与h(P)进行比较 时间复杂度为O(n)</li>
+<li>如果一个子串的hash值与h(p)相等，那么将该子串与P进行比较，如果匹配则继续，否则则中断当前匹配 时间复杂度为O(L)</li>
+</ol>
+<p>这加快了整个算法的效率，只要所有做比较的总时间为O(n)，那么整个算法的时间复杂度为O(n)。我们进入一个问题，如果我们在我们的hashtable中假设产生了O(n)次“哈希碰撞”（指由于哈希函数的问题，导致多个key对应到同一个值），那么步骤4的总复杂度就为O(nL)。因此我们不得不确保我们的hashtable的大小为n（也就是必须保证每个子串都能唯一对应一个哈希key，这取决于hash函数的设计），这样我们就可以期待子串可以被一次命中，所以我们只需要走步骤4O(1)次。而我们步骤4的时间复杂度为O(L)，在这种情况下，我们仍然可以保证整个问题的时间复杂度为O(n)</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;string&gt;</div><div class="line">using namespace std;</div><div class="line">void Rabin_Karp(string p,string s,int b,int m)&#123;</div><div class="line">    int hash_p=0;//目标串的hash值</div><div class="line">    int hash_i=0;//当前串的hash值</div><div class="line">    int h=1;</div><div class="line">    for (int i=0;i&lt;p.size();i++)&#123;//h==pow(b,p.size());</div><div class="line">        h=(h*b)%m;</div><div class="line">    &#125;</div><div class="line">    for (int i=0;i&lt;p.size();i++)&#123;</div><div class="line">        hash_p=(b*hash_p+p[i])%m;</div><div class="line">        hash_i=(b*hash_i+s[i])%m;</div><div class="line">    &#125;</div><div class="line">    for (int i=0;i&lt;=s.size()-p.size();i++)&#123;</div><div class="line">        if (hash_i==hash_p)&#123;</div><div class="line">            int j;</div><div class="line">            for (j=0;j&lt;p.size();j++)&#123;</div><div class="line">                if (s[i+j]!=p[j]) break;</div><div class="line">            &#125;</div><div class="line">            if (j==p.size()) cout&lt;&lt;&quot;yes &quot;&lt;&lt;i&lt;&lt;endl;</div><div class="line">        &#125;</div><div class="line">        if (i&lt;s.size()-p.size())&#123;</div><div class="line">            hash_i=(hash_i%m*b+s[i+p.size()]+m-s[i]*h%m)%m;//算出下一个hash值</div><div class="line">            if (hash_i&lt;0) hash_i=hash_i+m;//其实这一步在该程序下是没有实际意义的。主要是提醒自己以后涉及到取余问题的时候可能会发生取到负数及0</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">int main () &#123;</div><div class="line">    string p,s;</div><div class="line">    p=&quot;Rabin&quot;;</div><div class="line">    s=&quot;Rabin–Karp string search algorithm: Rabin-Karp&quot;;</div><div class="line">    int m=101;//素数</div><div class="line">    int base=26;//基数,这里取26好了</div><div class="line">    Rabin_Karp(p,s,base,m);</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="自身匹配问题"><a href="#自身匹配问题" class="headerlink" title="自身匹配问题"></a>自身匹配问题</h1><p>给定一个长度为n的串s，求其子串中是否存在相同的且长度都为l的串，若存在，输出其出现次数以及出现位置。<br>注意此处要求子串长度是一定的，数据小的话暴力就可以搞。</p>
+<ol>
+<li>hash S的第一个长度为L的子串 时间复杂度为：O(L),放入map表</li>
+<li>使用rolling hash 来计算S的所有O(n)个子串,每算出一个然后和map表进行比对，并更新map表，时间为O(nlogn)<br>注意可能会发生“哈希碰撞”。总的来说，m值的大小决定了map表的大小，而map表的大小又决定了哈希碰撞的概率。若是发生了碰撞，个人认为采用缓存区法或者再哈希都比较容易实现。</li>
+</ol>
+<h2 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现"></a>代码实现</h2><p>代码只实现了判断是否存在相同的子串，╮(╯-╰)╭，没办法，lpl马上开赛了，得赶紧干完呢~<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;string&gt;</div><div class="line">#include &lt;map&gt;</div><div class="line">using namespace std;</div><div class="line">struct Node&#123;</div><div class="line">    int index;</div><div class="line">    int num;</div><div class="line">&#125;;</div><div class="line">map&lt;int,Node&gt; mymap;</div><div class="line">void Rabin_Karp_Self(string s,int l,int b,int m)</div><div class="line">&#123;</div><div class="line">    int h=0;//注意初始化</div><div class="line">    int t=1;</div><div class="line">    for (int i=0;i&lt;l;i++) t=(t*b)%m;</div><div class="line">    for (int i=0;i&lt;l;i++)&#123;//计算第一个窗口的hash值</div><div class="line">        h=((b*h)+s[i])%m;</div><div class="line">    &#125;</div><div class="line">    mymap[h].index=0;mymap[h].num++;</div><div class="line">    for (int i=1;i&lt;=s.size()-l;i++)&#123;</div><div class="line">        //算初当前的hash</div><div class="line">        h=(h%m*b+s[i-1+l]+m-s[i-1]*t%m)%m;//滑动窗口，计算下一个hash值</div><div class="line">        //h=((h*b-s[i-1]*t)+s[i+l-1])%m; </div><div class="line">        //if (h&lt;0) h+=m;  //这里同上题</div><div class="line">        if (mymap.count(h))&#123;</div><div class="line">            int j;</div><div class="line">            for (j=0;j&lt;l;j++) &#123;</div><div class="line">                if (s[j+mymap[h].index]!=s[i+j]) break;</div><div class="line">            &#125;</div><div class="line">            if (j==l) cout&lt;&lt;&quot;yes &quot;&lt;&lt;mymap[h].index&lt;&lt;&quot; &quot;&lt;&lt;i&lt;&lt;endl;</div><div class="line">        &#125;else &#123;</div><div class="line">            mymap[h].index=i;mymap[h].index++;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">int main () &#123;</div><div class="line">    string s;</div><div class="line">    int n;</div><div class="line">    s=&quot;Rabin–Karp string search algorithm: Rabin-Karp&quot;;</div><div class="line">    //s=&quot;abcabc&quot;;</div><div class="line">    n=5;</div><div class="line">    int b;int m;</div><div class="line">    b=10;m=10001;</div><div class="line">    Rabin_Karp_Self(s,n,b,m);</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>若想输出次数和位置，也很简单，node增加一个数组，然后修改下cout那就行了。另外注意哈希碰撞的处理。</p>
+<h2 id="不定长的子串"><a href="#不定长的子串" class="headerlink" title="不定长的子串"></a>不定长的子串</h2><p>TODO<br>等对字符串匹配问题的各种算法理解都十分透彻后，再回头考虑这个问题<br>个人认为求不定长子串匹配问题该算法不仅麻烦，时间也算不上最快的。</p>
+<h1 id="共同子串问题"><a href="#共同子串问题" class="headerlink" title="共同子串问题"></a>共同子串问题</h1><p>刚才的算法被设计成：在一个字符串S中查找一个模式串P的匹配。然而，现在我们需要处理另一个问题：看看两个长度为n的长字符串S和T，看他们是否拥有长度为L的共同子串。这看起来是一个更难处理的问题，但我们还是能有采用rollinghash使得其复杂度为O(n)。我们采用一个相似的策略：</p>
+<ol>
+<li>hash S的第一个长度为L的子串 时间复杂度为：O(L)</li>
+<li>使用rolling hash 来计算S的所有O(n)个子串，然后把每个子串加入一个hash table中 时间复杂度为：O(n)</li>
+<li>hash T的第一个长度为L的子串 时间复杂度为：O(L)</li>
+<li>使用rolling hash方法来计算T的所有O(n)个子串，对每个子串，检查hashtable看是否能命中。</li>
+<li>如果T的一个子串命中了S的一个子串，那么就进行匹配，如果相等则继续，否则停止匹配。时间复杂度为：O(L)</li>
+</ol>
+<p>然而，保持运行的次数为O(n)，我们又再次需要注意限制“哈希碰撞”的次数，以减少我们进入步骤5来进行不必要的匹配。这次，如果我们的hashtable的大小为O(n)，那么我们对于T的每个子串所期待的命中复杂度为O(1)(最坏的情况)。这样的结果会导致字符串进行O(n)次比较，总共的复杂度为O(nL)次，这使得字符串的比较在这里成为了瓶颈。我们可以扩大hashtable的大小，同时修改我们的hash函数使得我们的hashtable有O(n的平方)个槽（槽指hash表中真正用于存储数据的单元），来使得对于每个T的子串来讲，可能的碰撞降低到O(1/n)。这可以解决我们的问题，并且使得整个问题的复杂度仍然为O(n)，但我们可能没有必要像这样来创建这么大的hashtable消耗不必要的资源。<br>取而代之的是，我们将利用字符串签名的优势来替代消耗更多存储资源的做法，我们将再为每个子串分配一个hash值，称之为h(k)’。注意，这个h(k)’的hash 函数最终将字符串映射到0到n的平方的范围而不是上面的0到n。现在当我们在hashtable中产生哈希碰撞时，在我们做最终“昂贵”的字符串比较之前，我们首先可以比较两个字符串的签名，如果签名不匹配，那么我们就可以跳过字符串比较。对于两个子串k1和k2，仅当h(k1)=h(k2)以及h(k1)’=h(k2)’时，我们才会做最终的字符串比较。对于一个好的h(k)’的哈希函数，这将大大减少字符串比对，使得比对的复杂度接近O(n)，将共同子串问题的复杂度限制在O(n)。</p>
+<h1 id="二维扩展"><a href="#二维扩展" class="headerlink" title="二维扩展"></a>二维扩展</h1><p><a href="http://novoland.github.io/%E7%AE%97%E6%B3%95/2014/07/26/Hash%20&amp;%20Rabin-Karp%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95.html" target="_blank" rel="external">http://novoland.github.io/%E7%AE%97%E6%B3%95/2014/07/26/Hash%20&amp;%20Rabin-Karp%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95.html</a><br>参考自:<br><a href="http://blog.csdn.net/yanghua_kobe/article/details/8914970" target="_blank" rel="external">http://blog.csdn.net/yanghua_kobe/article/details/8914970</a><br><a href="http://novoland.github.io/%E7%AE%97%E6%B3%95/2014/07/26/Hash%20&amp;%20Rabin-Karp%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95.html" target="_blank" rel="external">http://novoland.github.io/%E7%AE%97%E6%B3%95/2014/07/26/Hash%20&amp;%20Rabin-Karp%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95.html</a><br><a href="http://blog.csdn.net/chenhanzhun/article/details/39895077" target="_blank" rel="external">http://blog.csdn.net/chenhanzhun/article/details/39895077</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2015/08/09/Rolling Hash(Rabin-Karp算法)匹配字符串/">Rolling Hash(Rabin-Karp算法)匹配字符串</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Bingo</a></p>
+        <p><span>发布时间:</span>2015-08-09, 13:43:24</p>
+        <p><span>最后更新:</span>2015-08-09, 18:03:54</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2015/08/09/Rolling Hash(Rabin-Karp算法)匹配字符串/" title="Rolling Hash(Rabin-Karp算法)匹配字符串">http://blog.acbingo.cn/2015/08/09/Rolling Hash(Rabin-Karp算法)匹配字符串/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.acbingo.cn/2015/08/09/Rolling Hash(Rabin-Karp算法)匹配字符串/　　作者: Bingo" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2015/08/10/hdu4821 String/">
+                    hdu4821 String
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2015/08/09/设置vim的默认工作路径/">
+                    设置vim的默认工作路径
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#该算法常用的场景"><span class="toc-number">1.</span> <span class="toc-text">该算法常用的场景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于字符串查找与匹配"><span class="toc-number">2.</span> <span class="toc-text">关于字符串查找与匹配</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#做法"><span class="toc-number">3.</span> <span class="toc-text">做法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#“数值”示例"><span class="toc-number">4.</span> <span class="toc-text">“数值”示例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#回到字符串的问题上"><span class="toc-number">5.</span> <span class="toc-text">回到字符串的问题上</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#代码实现"><span class="toc-number">5.1.</span> <span class="toc-text">代码实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自身匹配问题"><span class="toc-number">6.</span> <span class="toc-text">自身匹配问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#代码实现-1"><span class="toc-number">6.1.</span> <span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#不定长的子串"><span class="toc-number">6.2.</span> <span class="toc-text">不定长的子串</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#共同子串问题"><span class="toc-number">7.</span> <span class="toc-text">共同子串问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二维扩展"><span class="toc-number">8.</span> <span class="toc-text">二维扩展</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Rolling Hash(Rabin-Karp算法)匹配字符串　| Bingo's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2015/08/10/hdu4821 String/" title="上一篇: hdu4821 String">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2015/08/09/设置vim的默认工作路径/" title="下一篇: 设置vim的默认工作路径">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/一步一步学习红黑树-2/">一步一步学习红黑树-2</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/04/一步一步学习红黑树/">一步一步学习红黑树-1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/回文解码/">回文解码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/C++中虚析构函数的作用/">C++中虚析构函数的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/const/">const</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/const与常成员函数/">const与常成员函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/31/虚拟继承/">虚拟继承</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/31/函数指针/">函数指针</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/记事本/">记事本</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/StarFiles/">StarFiles</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/酒店管理系统/">酒店管理系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/飞机大战/">飞机大战</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/仿函数/">仿函数/函数对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/二叉树中和为某一值的路径/">二叉树中和为某一值的路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/递归实现反转列表/">递归实现反转链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/快速幂/">快速幂</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/bitset的用法/">bitset的用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/二分查找、归并排序和快速排序/">二分查找、归并排序和快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/25/重建二叉树/">重建二叉树</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/25/leetcode_5/">LeetCode_5:Longest Palindromic Substring</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_4/">LeetCode_4:Median of Two Sorted Arrays</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_3/">LeetCode_3:Longest Substring Without Repeating Characters</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_2/">LeetCode_2:Add Two Numbers</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/leetcode_1_Two Sum/">LeetCode_1:Two Sum</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/07/Bingo's_ShadowSocks使用说明/">Bingo's_Shadowsocks</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/03/如何优雅的开启wifi热点/">如何优雅的开启wifi热点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/如何优雅的连接指定wifi热点/">如何优雅的连接指定wifi热点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/对AndroidWifi状态广播的研究/">对AndroidWifi状态广播的研究</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/coursera数据结构_字符串_课后作业/">coursera数据结构_字符串_课后作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/简单几步在Android_Studio上实现二维码的扫描/">简单几步在Android_Studio上实现二维码的生成与扫描</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/coursera_算法课后习题/">coursera_算法课后习题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/25/coursera_计算机组成学习笔记/">coursera_计算机组成学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/20/cocos2dx-飞机大战/">cocos2dx-飞机大战</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/14/android_ping不通电脑/">android_ping不通电脑</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/14/android创建与连接热点/">android创建与连接热点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/01/coursera_算法_递归/">coursera_算法_递归</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/30/coursera_操作系统学习笔记/">coursera_操作系统学习笔记_计算机操作系统概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/29/编译原理_中科大公开课_第一单元编译器介绍作业/">编译原理_中科大公开课_第一单元编译器介绍作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/25/关于Inflater与findViewById()的思考/">关于Inflater与findViewById()的思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/11/coursera_魔兽世界终结版/">coursera_魔兽世界终结版</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/05/coursera_算法作业_枚举/">coursera_算法作业_枚举</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/27/coursera_c++高级主体和c++11新特性/">coursera_c++高级主体和c++11新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/27/coursera_c++期末考试/">coursera_c++期末考试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/24/coursera_STL2作业/">coursera_STL2作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/21/coursera容器适配器/">coursera容器适配器_算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/21/coursera标准模版库STL2/">coursera标准模版库STL2</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/20/coursera编程作业-STL1/">coursera编程作业-STL1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/20/coursera疑问/">coursera疑问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/19/coursera学习笔记-函数对象/">coursera学习笔记-函数对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/19/coursera学习笔记-顺序容器Vector/">coursera学习笔记-顺序容器Vector、List和Deque</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/05/算法学习笔记-14-最长公共子序列/">算法学习笔记-14-最长公共子序列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/03/算法学习笔记-13-矩阵连乘问题/">算法学习笔记-13-矩阵连乘问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/01/算法学习笔记-12-循环赛日程表/">算法学习笔记-12-循环赛日程表</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/01/算法学习笔记-11-最接近点对问题/">算法学习笔记-11-最接近点对问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/01/算法学习笔记-10-线性时间选择/">算法学习笔记-10-线性时间选择</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/27/算法学习笔记-9-快速排序/">算法学习笔记-9-快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/26/算法学习笔记-8-合并排序/">算法学习笔记-8-归并排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/24/算法学习笔记-7-棋盘覆盖问题/">算法学习笔记-7-棋盘覆盖问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/22/算法学习笔记-6-Strassen矩阵乘法/">算法学习笔记-6-Strassen矩阵乘法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/21/算法学习笔记-5-Hanoi塔问题/">算法学习笔记-5-Hanoi塔问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/20/算法学习笔记-4-整数划分问题/">算法学习笔记-4-整数划分问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/19/算法学习笔记-3-排列问题/">算法学习笔记-3-排列问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/18/算法学习笔记-2-递归的概念/">算法学习笔记-2-递归的概念</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/17/coursera_标准模板库STL/">coursera_标准模板库STL</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/17/算法学习笔记-0-序/">算法学习笔记-0-序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/17/算法学习笔记-1-NP完全性理论/">算法学习笔记-1-NP完全性理论</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/14/文件操作和模板_编程作业/">文件操作和模板_编程作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/11/ubuntu下安装最新的nodejs(v4.2.2)/">ubuntu下安装最新的nodejs(v4.2.2)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/11/ubuntu14.04的环境变量/">ubuntu14.04的环境变量</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/01/coursera学习笔记_文件操作和模板/">coursera学习笔记_文件操作和模板</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/31/coursera学习笔记_多态和虚函数/">coursera学习笔记_多态和虚函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/28/Coursera_程序设计与晋级_继承与派生_编程作业/">Coursera_程序设计与晋级_继承与派生_编程作业</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/22/科大OJ-数据结构-DNA序列/">科大OJ-数据结构-DNA序列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/20/科大OJ-数据结构-求表达式串的后缀表达式和值/">科大OJ-数据结构-求表达式串的后缀表达式和值</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/01/科大OJ-数据结构-击鼓传花/">科大OJ-数据结构-击鼓传花</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/30/科大OJ-数据结构-求集合的交并补集/">科大OJ-数据结构-求集合的交并补集</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/27/hexo无法本地访问/">hexo无法本地访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/26/继承与派生/">coursera学习笔记_继承与派生</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/26/大数类模板/">大数类模板</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/15/vimium学习笔记/">vimium学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/04/程序员矩阵/">程序员矩阵</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/03/coursera学习笔记_运算符重载/">coursera学习笔记_运算符重载</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/01/写hexo博客、markdown文章时图床的挑选/">写hexo博客、markdown文章时图床的挑选</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/31/coursera学习笔记-c++程序设计/">coursera学习笔记-c++程序设计</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/29/Linux下C语言应用编程学习笔记/">Linux下C语言应用编程学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/28/linux学习笔记2/">linux学习笔记2</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/27/Bingo's exVim/">Bingo的VIM</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/27/linux下去掉^M的方法/">linux下去掉^M的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/27/vim的持久撤销功能/">vim的持久撤销功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/25/linux学习笔记/">linux学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/线段树学习笔记-7-hdu1698/">线段树学习笔记-7-hdu1698</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/线段树学习笔记-6-区间更新/">线段树学习笔记-6-区间更新</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/Coursera_程序设计与算法_C程序设计进阶/">Coursera_程序设计与算法_C程序设计进阶</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/18/线段树学习笔记-5-hdu2795/">线段树学习笔记-5-hdu2795</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/14/线段树学习笔记-4-hdu1394/">线段树学习笔记-4-hdu1394</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/14/求逆序对的个数/">求逆序对的个数</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/14/线段树学习笔记-3-hdu1754/">线段树学习笔记-3-hdu1754</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/13/线段树学习笔记-2-hdu1166/">线段树学习笔记-2-hdu1166</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/13/线段树学习笔记/">线段树学习笔记-1-入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/11/Coursera_程序设计与算法_计算导论与C语言基础_期末编程测试/">Coursera_程序设计与算法_计算导论与C语言基础_期末编程测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/Coursera_程序设计与算法_C程序设计进阶_C程序中的函数/">Coursera_程序设计与算法_计算导论与C语言基础_数组应用练习</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/Coursera_程序设计与算法_计算导论与C语言基础_数组应用练习/">Coursera_程序设计与算法_计算导论与C语言基础_数组应用练习</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/hdu4821 String/">hdu4821 String</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/09/Rolling Hash(Rabin-Karp算法)匹配字符串/">Rolling Hash(Rabin-Karp算法)匹配字符串</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/09/设置vim的默认工作路径/">设置vim的默认工作路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/滑动窗口的单调队列/">滑动窗口的单调队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/ssh -T git@github.com出现Permission denied (publickey)/">ssh -T git@github.com出现Permission denied (publickey)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/29/UVa10791-Minimum-Sum-LCM/">UVa10791-Minimum Sum LCM</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/29/uva100/">uva100</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016 Bingo
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
