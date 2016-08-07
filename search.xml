@@ -4,6 +4,38 @@
   
     
     <entry>
+      <title><![CDATA[c++初始化列表]]></title>
+      <url>http://blog.acbingo.cn/2016/08/07/c++%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8/</url>
+      <content type="html"><![CDATA[<p>今天做题的时候，一直在想c++初始化列表到底有啥用？<br><a id="more"></a></p>
+<h1 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h1><p>要搞明白初始化列表的作用，得先搞明白构造函数的两个执行阶段.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">class</span> Base&#123;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="keyword">int</span> p;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    Base():p(<span class="number">10</span>)&#123;&#125;;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>构造函数在被调用后，要执行两个阶段:</p>
+<ol>
+<li>初始化阶段</li>
+<li>计算阶段</li>
+</ol>
+<p>初始化阶段是先于计算阶段的。</p>
+<p>在初始化阶段，该构造函数所用到的成员会在初始化阶段进行初始化，如果有初始化列表，就执行初始化列表的赋值操作，如果没有或是有的成员没有在初始化列表中，对于类类型那么就会调用该类的无参构造函数进行初始化。</p>
+<p>第二阶段才会执行构造函数函数体内的代码。</p>
+<p>借用两个例子来说明：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> Test1</div><div class="line">&#123;</div><div class="line">    Test1() <span class="comment">// 无参构造函数</span></div><div class="line">    &#123; </div><div class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"Construct Test1"</span> &lt;&lt; <span class="built_in">endl</span> ;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Test1(<span class="keyword">const</span> Test1&amp; t1) <span class="comment">// 拷贝构造函数</span></div><div class="line">    &#123;</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"Copy constructor for Test1"</span> &lt;&lt; <span class="built_in">endl</span> ;</div><div class="line">        <span class="keyword">this</span>-&gt;a = t1.a ;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Test1&amp; <span class="keyword">operator</span> = (<span class="keyword">const</span> Test1&amp; t1) <span class="comment">// 赋值运算符</span></div><div class="line">    &#123;</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"assignment for Test1"</span> &lt;&lt; <span class="built_in">endl</span> ;</div><div class="line">        <span class="keyword">this</span>-&gt;a = t1.a ;</div><div class="line">        <span class="keyword">return</span> *<span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> a ;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">struct</span> Test2</div><div class="line">&#123;</div><div class="line">    Test1 test1 ;</div><div class="line">    Test2(Test1 &amp;t1)</div><div class="line">    &#123;</div><div class="line">        test1 = t1 ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>调用代码为</p>
+<pre><code>Test1 t1 ;
+Test2 t2(t1) ;
+</code></pre><p>输出:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Construct Test1</div><div class="line">Construct Test1</div><div class="line">assignment for Test1</div></pre></td></tr></table></figure></p>
+<p>显然，输出第一行是由mian中的Test1 t1 产生的。</p>
+<p>输出的第二行则是在Test2的构造函数进入函数体前，对成员变量test1进行初始化产生的，而第三行则是由于test1 = t1 调用赋值语句产生的。</p>
+<p>那么我们换成初始化列表看看会发生什么：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> Test2</div><div class="line">&#123;</div><div class="line">    Test1 test1 ;</div><div class="line">    Test2(Test1 &amp;t1):test1(t1)&#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Construct Test1</div><div class="line">Copy Constructor for Test1</div></pre></td></tr></table></figure></p>
+<p>不再调用Test1的默认构造函数！而且只用利用复制构造函数对test1进行构造并初始化</p>
+<p>没错，其实对于test1来说，调用默认构造函数是多余的。这对于数据密集型的类来说，是非常高效的。</p>
+<p><strong>那么，你估计也想到了，要是Test1没有默认的构造函数呢？</strong><br>没错！要是没有默认的构造函数，而且没有初始化列表的话，是编译不过的。<br>所以，对于没有默认构造函数的类来说，就必须使用初始化列表进行初始化。</p>
+<p>同样的，对于成员变量是<strong>常量或引用类型</strong>，若是你没有在声明的时候一同给出初始化的声明，那么就只能在初始化列表中进行初始化。</p>
+<p><strong>最后一个需要注意的一点是</strong>：类成员是按照他们在类中出现（声明）的顺序进行初始化的，而不是按照他们在初始化列表出现的顺序初始化的</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[一步一步学习红黑树-2]]></title>
       <url>http://blog.acbingo.cn/2016/08/05/%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E5%AD%A6%E4%B9%A0%E7%BA%A2%E9%BB%91%E6%A0%91-2/</url>
       <content type="html"><![CDATA[<p>一步一步来，这篇文章熟悉下平衡二叉树。<br><a id="more"></a></p>
